@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0,
+    user-scalable=no, viewport-fit=cover"
+  />
+
+  <meta name="theme-color" content="#070b12" />
+
+  <title>Campbell Home Concierge</title>
+
+  <style>
+    :root {
+      --midnight: #070b12;
+      --midnight-soft: #101620;
+
+      /* Sunset-inspired Campbell colors */
+      --sunset-light: #ffe0a2;
+      --sunset-gold: #e9bb70;
+      --sunset-orange: #d98b4d;
+      --sunset-copper: #a95f3c;
+
+      --cream: #f7ecd7;
+      --muted: #c7bcaa;
+      --glass: rgba(8, 12, 19, 0.78);
+      --glass-light: rgba(20, 25, 34, 0.68);
+      --border: rgba(233, 187, 112, 0.65);
+      --shadow: rgba(0, 0, 0, 0.55);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      background: #000;
+      color: var(--cream);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    button,
+    a {
+      font: inherit;
+    }
+
+    /*
+      MAIN KIOSK
+      The background image filename exactly matches the GitHub screenshot.
+    */
+
+    .kiosk {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        linear-gradient(
+          180deg,
+          rgba(3, 6, 11, 0.95) 0%,
+          rgba(5, 9, 15, 0.80) 29%,
+          rgba(5, 9, 15, 0.50) 54%,
+          rgba(4, 7, 12, 0.88) 100%
+        ),
+        url("./nyc-sunset.jpg.PNG") center center / cover no-repeat;
+    }
+
+    .kiosk::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(
+          circle at 50% 34%,
+          rgba(231, 155, 77, 0.12),
+          transparent 31%
+        ),
+        linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.30),
+          transparent 22%,
+          transparent 78%,
+          rgba(0, 0, 0, 0.30)
+        );
+    }
+
+    .kiosk::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      box-shadow: inset 0 0 130px rgba(0, 0, 0, 0.76);
+    }
+
+    .content {
+      width: min(100%, 1200px);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding:
+        max(28px, env(safe-area-inset-top))
+        38px
+        max(26px, env(safe-area-inset-bottom));
+      display: flex;
+      flex-direction: column;
+    }
+
+    /*
+      TOP BRAND AREA
+    */
+
+    .top-row {
+      display: grid;
+      grid-template-columns: 1fr minmax(310px, 1.4fr) 1fr;
+      align-items: start;
+      gap: 30px;
+    }
+
+    .brand-values {
+      padding-top: 26px;
+      color: var(--sunset-light);
+      font-size: clamp(12px, 1.35vw, 17px);
+      line-height: 1.65;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .brand-values span {
+      display: block;
+    }
+
+    .brand {
+      text-align: center;
+    }
+
+    /*
+      Campbell C logo with home inside the C
+    */
+
+    .campbell-symbol {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 6px;
+      filter:
+        drop-shadow(0 0 10px rgba(233, 187, 112, 0.35))
+        drop-shadow(0 0 22px rgba(217, 139, 77, 0.18));
+    }
+
+    .campbell-c {
+      position: absolute;
+      inset: 4px;
+      border: 6px solid var(--sunset-gold);
+      border-right-color: transparent;
+      border-radius: 50%;
+      transform: rotate(-5deg);
+    }
+
+    .house-inside-c {
+      position: absolute;
+      left: 27px;
+      top: 29px;
+      width: 48px;
+      height: 43px;
+      color: var(--sunset-light);
+      z-index: 2;
+    }
+
+    .brand h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(29px, 4vw, 54px);
+      font-weight: 400;
+      letter-spacing: 0.16em;
+      line-height: 1;
+      text-transform: uppercase;
+
+      background: linear-gradient(
+        180deg,
+        var(--sunset-light) 0%,
+        var(--sunset-gold) 46%,
+        var(--sunset-orange) 100%
+      );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.65));
+    }
+
+    .brand-subtitle {
+      margin-top: 9px;
+      font-size: clamp(12px, 1.45vw, 18px);
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--sunset-light);
+    }
+
+    .brand-slogan {
+      margin-top: 14px;
+      font-size: clamp(11px, 1.25vw, 16px);
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .brand-promise {
+      padding-top: 23px;
+      text-align: right;
+      color: var(--cream);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(16px, 2vw, 24px);
+      font-style: italic;
+      line-height: 1.35;
+    }
+
+    .brand-promise span {
+      display: block;
+    }
+
+    /*
+      CLOCK AND WEATHER
+    */
+
+    .status-row {
+      width: min(760px, 100%);
+      margin: 36px auto 18px;
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      align-items: center;
+      gap: 34px;
+    }
+
+    .status-divider {
+      width: 1px;
+      height: 78px;
+      background: linear-gradient(
+        transparent,
+        rgba(233, 187, 112, 0.65),
+        transparent
+      );
+    }
+
+    .time-panel {
+      text-align: right;
+    }
+
+    .time {
+      font-size: clamp(52px, 8vw, 96px);
+      font-weight: 300;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.65);
+    }
+
+    .time-period {
+      font-size: 0.52em;
+      letter-spacing: 0.06em;
+      margin-left: 5px;
+    }
+
+    .date {
+      margin-top: 14px;
+      font-size: clamp(17px, 2.1vw, 25px);
+      color: var(--muted);
+    }
+
+    .weather-panel {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .weather-icon {
+      width: 76px;
+      height: 76px;
+      color: var(--sunset-light);
+      filter: drop-shadow(0 0 10px rgba(233, 187, 112, 0.2));
+      flex: 0 0 auto;
+    }
+
+    .temperature {
+      font-size: clamp(45px, 6.5vw, 76px);
+      font-weight: 300;
+      line-height: 1;
+    }
+
+    .weather-description {
+      margin-top: 8px;
+      font-size: clamp(15px, 1.8vw, 21px);
+      color: var(--muted);
+    }
+
+    .location {
+      margin-top: 5px;
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      color: var(--sunset-gold);
+      text-transform: uppercase;
+    }
+
+    /*
+      QR SECTION
+    */
+
+    .qr-section {
+      margin: 14px auto 32px;
+      text-align: center;
+    }
+
+    .qr-card {
+      width: clamp(230px, 28vw, 320px);
+      aspect-ratio: 1;
+      margin: 0 auto;
+      padding: 16px;
+      border: 3px solid var(--sunset-gold);
+      border-radius: 26px;
+      background: #fff;
+      box-shadow:
+        0 0 10px rgba(255, 224, 162, 0.9),
+        0 0 28px rgba(233, 187, 112, 0.55),
+        0 20px 45px rgba(0, 0, 0, 0.60);
+    }
+
+    .qr-card img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      object-fit: contain;
+      image-rendering: auto;
+    }
+
+    .qr-title {
+      margin-top: 16px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(28px, 3.6vw, 43px);
+      color: var(--cream);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.75);
+    }
+
+    .qr-subtitle {
+      margin-top: 6px;
+      color: var(--sunset-gold);
+      font-size: clamp(11px, 1.35vw, 16px);
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    /*
+      LARGE NAVIGATION CARDS
+    */
+
+    .navigation {
+      width: 100%;
+      margin-top: auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .nav-card {
+      min-height: 238px;
+      padding: 24px 14px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: center;
+      text-decoration: none;
+      color: var(--cream);
+      cursor: pointer;
+
+      border: 2px solid var(--border);
+      border-radius: 23px;
+      background:
+        linear-gradient(
+          150deg,
+          rgba(21, 26, 35, 0.86),
+          rgba(5, 8, 13, 0.92)
+        );
+
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 12px 28px rgba(0, 0, 0, 0.34);
+
+      transition:
+        transform 160ms ease,
+        border-color 160ms ease,
+        background 160ms ease,
+        box-shadow 160ms ease;
+    }
+
+    .nav-card:hover,
+    .nav-card:focus-visible {
+      transform: translateY(-6px);
+      border-color: var(--sunset-light);
+      background:
+        linear-gradient(
+          150deg,
+          rgba(50, 39, 28, 0.92),
+          rgba(8, 11, 17, 0.95)
+        );
+      box-shadow:
+        0 0 18px rgba(233, 187, 112, 0.24),
+        0 18px 34px rgba(0, 0, 0, 0.45);
+      outline: none;
+    }
+
+    .nav-card:active {
+      transform: scale(0.97);
+    }
+
+    /*
+      Larger icons for tablet visibility
+    */
+
+    .nav-icon {
+      width: 74px;
+      height: 74px;
+      margin-bottom: 11px;
+      color: var(--sunset-gold);
+      filter:
+        drop-shadow(0 0 7px rgba(233, 187, 112, 0.2))
+        drop-shadow(0 4px 5px rgba(0, 0, 0, 0.5));
+    }
+
+    .nav-title {
+      font-size: clamp(21px, 2.45vw, 31px);
+      font-weight: 500;
+      color: var(--sunset-light);
+    }
+
+    .nav-details {
+      margin-top: 13px;
+      color: var(--muted);
+      font-size: clamp(12px, 1.35vw, 17px);
+      line-height: 1.45;
+    }
+
+    .nav-details span {
+      display: block;
+    }
+
+    /*
+      FOOTER
+    */
+
+    .footer-message {
+      margin-top: 25px;
+      text-align: center;
+      color: var(--sunset-gold);
+      font-size: clamp(11px, 1.3vw, 16px);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    .footer-line {
+      width: min(580px, 78%);
+      height: 1px;
+      margin: 13px auto;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(233, 187, 112, 0.55),
+        transparent
+      );
+    }
+
+    .footer-home {
+      width: 46px;
+      height: 46px;
+      margin: 0 auto;
+      color: var(--sunset-light);
+      filter:
+        drop-shadow(0 0 6px rgba(255, 224, 162, 0.85))
+        drop-shadow(0 0 14px rgba(233, 187, 112, 0.55));
+    }
+
+    /*
+      MODAL PANELS
+    */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      padding: 24px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(12px);
+    }
+
+    .modal.open {
+      display: flex;
+    }
+
+    .modal-panel {
+      position: relative;
+      width: min(620px, 100%);
+      max-height: 86vh;
+      overflow-y: auto;
+      padding: 36px;
+      border: 2px solid var(--border);
+      border-radius: 28px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(22, 29, 40, 0.98),
+          rgba(6, 9, 14, 0.99)
+        );
+      box-shadow:
+        0 0 40px rgba(233, 187, 112, 0.16),
+        0 25px 70px rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-panel h2 {
+      padding-right: 42px;
+      color: var(--sunset-light);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 34px;
+      font-weight: 400;
+    }
+
+    .modal-panel p {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .modal-options {
+      margin-top: 24px;
+      display: grid;
+      gap: 13px;
+    }
+
+    .modal-option {
+      width: 100%;
+      padding: 18px;
+      color: var(--cream);
+      text-align: left;
+      font-size: 18px;
+      border: 1px solid rgba(233, 187, 112, 0.45);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.035);
+      cursor: pointer;
+    }
+
+    .modal-option:hover {
+      color: var(--sunset-light);
+      background: rgba(233, 187, 112, 0.10);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      color: var(--sunset-light);
+      background: rgba(0, 0, 0, 0.3);
+      font-size: 26px;
+      cursor: pointer;
+    }
+
+    /*
+      TABLET PORTRAIT
+    */
+
+    @media (max-width: 820px) {
+      .content {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+
+      .top-row {
+        grid-template-columns: 1fr;
+      }
+
+      .brand-values,
+      .brand-promise {
+        display: none;
+      }
+
+      .brand {
+        order: 1;
+      }
+
+      .campbell-symbol {
+        width: 83px;
+        height: 83px;
+      }
+
+      .campbell-c {
+        border-width: 5px;
+      }
+
+      .house-inside-c {
+        left: 23px;
+        top: 24px;
+        width: 40px;
+        height: 38px;
+      }
+
+      .status-row {
+        margin-top: 31px;
+        gap: 20px;
+      }
+
+      .navigation {
+        gap: 12px;
+      }
+
+      .nav-card {
+        min-height: 215px;
+        padding-left: 9px;
+        padding-right: 9px;
+      }
+
+      .nav-icon {
+        width: 62px;
+        height: 62px;
+      }
+    }
+
+    /*
+      SMALLER SCREENS
+    */
+
+    @media (max-width: 650px) {
+      .status-row {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .status-divider {
+        width: 70%;
+        height: 1px;
+        margin: 0 auto;
+      }
+
+      .time-panel {
+        text-align: center;
+      }
+
+      .weather-panel {
+        justify-content: center;
+      }
+
+      .navigation {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-card {
+        min-height: 220px;
+      }
+    }
+
+    /*
+      LANDSCAPE TABLET OPTIMIZATION
+    */
+
+    @media (orientation: landscape) and (max-height: 850px) {
+      .content {
+        padding-top: 18px;
+        padding-bottom: 18px;
+      }
+
+      .campbell-symbol {
+        width: 66px;
+        height: 66px;
+      }
+
+      .campbell-c {
+        border-width: 4px;
+      }
+
+      .house-inside-c {
+        left: 18px;
+        top: 18px;
+        width: 33px;
+        height: 31px;
+      }
+
+      .brand h1 {
+        font-size: 34px;
+      }
+
+      .status-row {
+        margin-top: 18px;
+        margin-bottom: 10px;
+      }
+
+      .time {
+        font-size: 62px;
+      }
+
+      .qr-card {
+        width: 205px;
+      }
+
+      .qr-title {
+        font-size: 29px;
+      }
+
+      .navigation {
+        margin-top: 8px;
+      }
+
+      .nav-card {
+        min-height: 176px;
+        padding-top: 16px;
+      }
+
+      .nav-icon {
+        width: 52px;
+        height: 52px;
+      }
+
+      .nav-details {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="kiosk">
+    <div class="content">
+
+      <!-- TOP BRAND SECTION -->
+      <header class="top-row">
+        <div class="brand-values" aria-label="Campbell values">
+          <span>People</span>
+          <span>Homes</span>
+          <span>A Simpler Life</span>
+        </div>
+
+        <div class="brand">
+          <div class="campbell-symbol" aria-label="Campbell C and home logo">
+            <div class="campbell-c"></div>
+
+            <svg
+              class="house-inside-c"
+              viewBox="0 0 64 58"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M7 29L32 7L57 29"
+                stroke="currentColor"
+                stroke-width="5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M15 27V50H49V27"
+                stroke="currentColor"
+                stroke-width="5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M26 50V34H38V50"
+                stroke="currentColor"
+                stroke-width="5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+
+          <h1>Campbell</h1>
+          <div class="brand-subtitle">Home Concierge</div>
+          <div class="brand-slogan">Your Home. Our Concierge.</div>
+        </div>
+
+        <div class="brand-promise">
+          <span>Comfort</span>
+          <span>Connection</span>
+          <span>Community</span>
+          <span>Always.</span>
+        </div>
+      </header>
+
+      <!-- TIME AND WEATHER -->
+      <section class="status-row" aria-label="Current time and weather">
+        <div class="time-panel">
+          <div class="time">
+            <span id="currentTime">9:41</span>
+            <span class="time-period" id="timePeriod">PM</span>
+          </div>
+
+          <div class="date" id="currentDate">Monday, October 5</div>
+        </div>
+
+        <div class="status-divider"></div>
+
+        <div class="weather-panel">
+          <svg
+            class="weather-icon"
+            viewBox="0 0 100 100"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M50 9V21"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linecap="round"
+            />
+            <path
+              d="M22 20L30 29"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linecap="round"
+            />
+            <path
+              d="M78 20L70 29"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linecap="round"
+            />
+            <path
+              d="M10 49H23"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linecap="round"
+            />
+            <path
+              d="M77 49H90"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linecap="round"
+            />
+            <path
+              d="M31 50C32 36 42 28 54 28C67 28 76 37 77 50C87 52 93 59 93 69C93 80 85 87 73 87H31C17 87 8 79 8 67C8 57 16 50 26 49C28 49 29 49 31 50Z"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linejoin="round"
+            />
+          </svg>
+
+          <div>
+            <!-- Replace 72 if desired -->
+            <div class="temperature">72°F</div>
+            <div class="weather-description">Mostly Clear</div>
+            <div class="location">New York City</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- QR CODE -->
+      <section class="qr-section" aria-label="Wi-Fi QR code">
+        <div class="qr-card">
+          ./wifi-qr.png.jpg
+        </div>
+
+        <div class="qr-title">Scan for Wi-Fi</div>
+        <div class="qr-subtitle">Stay Connected. Stay at Home.</div>
+      </section>
+
+      <!-- NAVIGATION -->
+      <nav class="navigation" aria-label="Guest services">
+
+        <!-- HOME -->
+        <button class="nav-card" type="button" data-modal="homeModal">
+          <svg
+            class="nav-icon"
+            viewBox="0 0 100 100"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M13 48L50 17L87 48"
+              stroke="currentColor"
+              stroke-width="9"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M23 44V85H77V44"
+              fill="currentColor"
+              stroke="currentColor"
+              stroke-width="6"
+              stroke-linejoin="round"
+            />
+            <path d="M43 85V61H59V85" fill="#111722" />
+          </svg>
+
+          <div class="nav-title">Home</div>
+
+          <div class="nav-details">
+            <span>House Rules</span>
+            <span>Local Guide</span>
+            <span>Things to Do</span>
+          </div>
+        </button>
+
+        <!-- HOUSEKEEPING -->
+        <button class="nav-card" type="button" data-modal="housekeepingModal">
+          <svg
+            class="nav-icon"
+            viewBox="0 0 100 100"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M23 28C23 22 28 18 34 18H75C80 18 84 22 84 27C84 35 77 41 69 42L29 47C21 48 15 43 15 36C15 32 18 29 23 28Z"
+              fill="currentColor"
+            />
+            <path
+              d="M24 51H71C80 51 86 56 86 63C86 70 80 75 71 75H24C17 75 13 70 13 63C13 57 18 52 24 51Z"
+              fill="currentColor"
+              opacity="0.9"
+            />
+            <path
+              d="M29 77H70C78 77 83 81 83 87H18C18 81 22 77 29 77Z"
+              fill="currentColor"
+              opacity="0.75"
+            />
+            <path
+              d="M66 25C73 26 77 30 77 36"
+              stroke="#111722"
+              stroke-width="5"
+              stroke-linecap="round"
+            />
+            <path
+              d="M66 57C74 58 78 62 78 68"
+              stroke="#111722"
+              stroke-width="5"
+              stroke-linecap="round"
+            />
+          </svg>
+
+          <div class="nav-title">Housekeeping</div>
+
+          <div class="nav-details">
+            <span>Towels & Linens</span>
+            <span>Cleaning Requests</span>
+            <span>Supplies</span>
+          </div>
+        </button>
+
+        <!-- MAINTENANCE -->
+        <button class="nav-card" type="button" data-modal="maintenanceModal">
+          <svg
+            class="nav-icon"
+            viewBox="0 0 100 100"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M22 17C31 15 39 19 43 25C47 31 47 38 44 44L80 77C84 81 84 87 80 91C76 95 69 95 65 91L32 55C26 57 20 56 15 53C8 48 5 39 8 31L21 43L31 33L22 17Z"
+              fill="currentColor"
+            />
+            <path
+              d="M77 13L87 23L43 68L32 57L77 13Z"
+              fill="currentColor"
+            />
+            <path
+              d="M85 10L91 16L86 27L76 17L85 10Z"
+              fill="currentColor"
+            />
+          </svg>
+
+          <div class="nav-title">Maintenance</div>
+
+          <div class="nav-details">
+            <span>Report an Issue</span>
+            <span>Upload a Photo</span>
+            <span>Get Help</span>
+          </div>
+        </button>
+
+        <!-- CHECK OUT -->
+        <button class="nav-card" type="button" data-modal="checkoutModal">
+          <svg
+            class="nav-icon"
+            viewBox="0 0 100 100"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M21 14H76V86H21V14Z"
+              fill="currentColor"
+            />
+            <path
+              d="M34 23L71 29V79L34 87V23Z"
+              fill="#b46c43"
+            />
+            <circle cx="61" cy="55" r="3.5" fill="#fff1cf" />
+          </svg>
+
+          <div class="nav-title">Check Out</div>
+
+          <div class="nav-details">
+            <span>Check-Out Info</span>
+            <span>Survey & Rewards</span>
+            <span>Thank You</span>
+          </div>
+        </button>
+      </nav>
+
+      <!-- FOOTER -->
+      <footer>
+        <div class="footer-message">
+          Exceptional Stays Create Brighter Tomorrows.
+        </div>
+
+        <div class="footer-line"></div>
+
+        <svg
+          class="footer-home"
+          viewBox="0 0 64 64"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M7 30L32 8L57 30"
+            stroke="currentColor"
+            stroke-width="5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M14 27V55H50V27"
+            stroke="currentColor"
+            stroke-width="5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M26 55V39H38V55"
+            stroke="currentColor"
+            stroke-width="5"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </footer>
+    </div>
+  </main>
+
+  <!-- HOME MODAL -->
+  <div class="modal" id="homeModal" role="dialog" aria-modal="true">
+    <div class="modal-panel">
+      <button class="close-modal" type="button" aria-label="Close">×</button>
+
+      <h2>Welcome Home</h2>
+      <p>
+        Find important information about the home and explore the neighborhood.
+      </p>
+
+      <div class="modal-options">
+        <button class="modal-option" type="button">House Rules</button>
+        <button class="modal-option" type="button">Local Restaurants</button>
+        <button class="modal-option" type="button">Things to Do</button>
+        <button class="modal-option" type="button">Emergency Information</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOUSEKEEPING MODAL -->
+  <div class="modal" id="housekeepingModal" role="dialog" aria-modal="true">
+    <div class="modal-panel">
+      <button class="close-modal" type="button" aria-label="Close">×</button>
+
+      <h2>Housekeeping</h2>
+      <p>Select the housekeeping service needed for the stay.</p>
+
+      <div class="modal-options">
+        <button class="modal-option" type="button">Request Fresh Towels</button>
+        <button class="modal-option" type="button">Request Fresh Linens</button>
+        <button class="modal-option" type="button">Request Cleaning</button>
+        <button class="modal-option" type="button">Request Supplies</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAINTENANCE MODAL -->
+  <div class="modal" id="maintenanceModal" role="dialog" aria-modal="true">
+    <div class="modal-panel">
+      <button class="close-modal" type="button" aria-label="Close">×</button>
+
+      <h2>Maintenance</h2>
+      <p>Let Campbell Home Concierge know what needs attention.</p>
+
+      <div class="modal-options">
+        <button class="modal-option" type="button">Report a Maintenance Issue</button>
+        <button class="modal-option" type="button">Upload a Photo</button>
+        <button class="modal-option" type="button">Request Immediate Help</button>
+        <button class="modal-option" type="button">Check Request Status</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKOUT MODAL -->
+  <div class="modal" id="checkoutModal" role="dialog" aria-modal="true">
+    <div class="modal-panel">
+      <button class="close-modal" type="button" aria-label="Close">×</button>
+
+      <h2>Check Out</h2>
+      <p>Review the departure steps and complete the stay.</p>
+
+      <div class="modal-options">
+        <button class="modal-option" type="button">View Check-Out Instructions</button>
+        <button class="modal-option" type="button">Confirm Departure</button>
+        <button class="modal-option" type="button">Complete Guest Survey</button>
+        <button class="modal-option" type="button">Leave a Review</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /*
+      LIVE CLOCK
+    */
+
+    function updateClock() {
+      const now = new Date();
+
+      const timeText = now.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true
+      });
+
+      const timeParts = timeText.split(" ");
+
+      document.getElementById("currentTime").textContent = timeParts[0];
+      document.getElementById("timePeriod").textContent = timeParts[1];
+
+      document.getElementById("currentDate").textContent =
+        now.toLocaleDateString("en-US", {
+          weekday: "long",
+          month: "long",
+          day: "numeric"
+        });
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    /*
+      SERVICE MODALS
+    */
+
+    const serviceButtons = document.querySelectorAll("[data-modal]");
+    const modals = document.querySelectorAll(".modal");
+    const closeButtons = document.querySelectorAll(".close-modal");
+
+    serviceButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const modalId = button.dataset.modal;
+        const selectedModal = document.getElementById(modalId);
+
+        if (selectedModal) {
+          selectedModal.classList.add("open");
+        }
+      });
+    });
+
+    closeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        button.closest(".modal").classList.remove("open");
+      });
+    });
+
+    modals.forEach((modal) => {
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) {
+          modal.classList.remove("open");
+        }
+      });
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        modals.forEach((modal) => modal.classList.remove("open"));
+      }
+    });
+  </script>
+</body>
+</html>
