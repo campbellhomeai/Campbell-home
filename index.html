@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campbell Home Concierge</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family: Georgia, serif;
+}
+
+body{
+    background:
+    linear-gradient(
+        rgba(0,0,0,.15),
+        rgba(0,0,0,.35)
+    ),
+    url("nyc-sunset.jpg.PNG");
+
+    background-size:cover;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+.container{
+    width:100%;
+    height:100vh;
+    padding:15px;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+/* CAMPBELL LOGO */
+
+.logo-area{
+    text-align:center;
+}
+
+.logo-svg{
+    width:120px;
+    height:120px;
+}
+
+.logo-text{
+    color:#e4c16e;
+    font-size:54px;
+    letter-spacing:4px;
+    margin-top:-15px;
+}
+
+.subtitle{
+    color:white;
+    font-size:14px;
+    letter-spacing:4px;
+}
+
+.help{
+    color:white;
+    font-size:18px;
+    margin-top:4px;
+}
+
+/* TOP BAR */
+
+.top-row{
+    width:92%;
+    display:flex;
+    justify-content:space-between;
+    margin-top:10px;
+}
+
+.left-side{
+    text-align:left;
+}
+
+.right-side{
+    text-align:right;
+}
+
+.time{
+    color:white;
+    font-size:58px;
+    font-weight:300;
+}
+
+.date{
+    color:white;
+    font-size:20px;
+}
+
+.temp{
+    color:white;
+    font-size:58px;
+    font-weight:300;
+}
+
+.weather{
+    color:white;
+    font-size:20px;
+}
+
+/* WELCOME */
+
+.welcome{
+    margin-top:10px;
+    color:white;
+    font-size:58px;
+    font-weight:bold;
+}
+
+/* QR */
+
+.qr-box{
+    width:220px;
+    height:220px;
+
+    margin-top:15px;
+
+    background:white;
+
+    border-radius:20px;
+
+    border:3px solid #e4c16e;
+
+    overflow:hidden;
+
+    box-shadow:0 0 25px rgba(228,193,110,.7);
+}
+
+.qr-box img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    display:block;
+}
+
+.scan{
+    margin-top:10px;
+    color:white;
+    font-size:32px;
+}
+
+/* VOICE */
+
+.voice{
+    text-align:center;
+    margin-top:10px;
+}
+
+.mic-btn{
+
+    width:95px;
+    height:95px;
+
+    border-radius:50%;
+
+    border:4px solid #e4c16e;
+
+    background:rgba(0,0,0,.65);
+
+    color:#e4c16e;
+
+    font-size:42px;
+
+    cursor:pointer;
+}
+
+.speak{
+    margin-top:10px;
+    color:white;
+    font-size:28px;
+}
+
+.response{
+
+    width:90vw;
+    max-width:800px;
+
+    margin-top:8px;
+
+    padding:10px;
+
+    border-radius:12px;
+
+    color:white;
+
+    background:rgba(0,0,0,.5);
+}
+
+/* BOTTOM MENU */
+
+.bottom-nav{
+
+    position:absolute;
+
+    bottom:110px;
+
+    width:94%;
+
+    display:grid;
+
+    grid-template-columns:repeat(5,1fr);
+
+    gap:10px;
+}
+
+.card{
+
+    background:rgba(10,15,30,.92);
+
+    border:2px solid #e4c16e;
+
+    border-radius:18px;
+
+    text-align:center;
+
+    padding:14px 8px;
+}
+
+.icon{
+    font-size:28px;
+    margin-bottom:5px;
+}
+
+.label{
+    color:white;
+    font-size:16px;
+    font-weight:600;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo-area">
+
+        <svg class="logo-svg" viewBox="0 0 120 120">
+
+            <!-- Luxury C -->
+
+            <path
+                d="M95 20
+                   C70 8 35 18 22 48
+                   C10 78 25 106 58 109
+                   C78 111 93 103 103 90"
+                fill="none"
+                stroke="#e4c16e"
+                stroke-width="8"
+                stroke-linecap="round"/>
+
+            <!-- House -->
+
+            <path
+                d="M42 56 L60 40 L78 56"
+                fill="none"
+                stroke="#e4c16e"
+                stroke-width="4"
+                stroke-linecap="round"
+                stroke-linejoin="round"/>
+
+            <path
+                d="M46 56 L46 80
+                   L74 80
+                   L74 56"
+                fill="none"
+                stroke="#e4c16e"
+                stroke-width="4"/>
+
+            <path
+                d="M57 80
+                   L57 64
+                   L64 64
+                   L64 80"
+                fill="none"
+                stroke="#e4c16e"
+                stroke-width="3"/>
+
+        </svg>
+
+        <div class="logo-text">CAMPBELL</div>
+
+        <div class="subtitle">
+            HOME CONCIERGE
+        </div>
+
+        <div class="help">
+            I'M HERE TO HELP.
+        </div>
+
+    </div>
+
+    <div class="top-row">
+
+        <div class="left-side">
+            <div id="clock" class="time"></div>
+            <div id="date" class="date"></div>
+        </div>
+
+        <div class="right-side">
+            <div class="temp">72°F</div>
+            <div class="weather">Mostly Clear</div>
+        </div>
+
+    </div>
+
+    <div class="welcome">
+        Welcome Home, Guest
+    </div>
+
+    <div class="qr-box">
+        wifi-qr.png.jpg
+    </div>
+
+    <div class="scan">
+        Scan for Wi‑Fi
+    </div>
+
+    <div class="voice">
+
+        <button id="micButton" class="mic-btn">
+            🎤
+        </button>
+
+        <div class="speak">
+            Speak with Campbell
+        </div>
+
+        <div id="response" class="response">
+            Tap the microphone to begin.
+        </div>
+
+    </div>
+
+    <div class="bottom-nav">
+
+        <div class="card">
+            <div class="icon">🏠</div>
+            <div class="label">Home</div>
+        </div>
+
+        <div class="card">
+            <div class="icon">✅</div>
+            <div class="label">Check In</div>
+        </div>
+
+        <div class="card">
+            <div class="icon">🧺</div>
+            <div class="label">Housekeeping</div>
+        </div>
+
+        <div class="card">
+            <div class="icon">🔧</div>
+            <div class="label">Maintenance</div>
+        </div>
+
+        <div class="card">
+            <div class="icon">🚪</div>
+            <div class="label">Check Out</div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const greeting =
+"Hello, I'm Campbell and I'm here to help you throughout your stay. You may ask questions by tapping the microphone, or get additional information by tapping each icon below.";
+
+document.getElementById("micButton").addEventListener("click", function(){
+
+    document.getElementById("response").innerText = greeting;
+
+    speechSynthesis.cancel();
+
+    const speech =
+        new SpeechSynthesisUtterance(greeting);
+
+    speech.rate = 0.95;
+
+    speechSynthesis.speak(speech);
+
+});
+
+function updateClock(){
+
+    const now = new Date();
+
+    document.getElementById("clock").innerHTML =
+    now.toLocaleTimeString([],{
+        hour:'numeric',
+        minute:'2-digit'
+    });
+
+    document.getElementById("date").innerHTML =
+    now.toLocaleDateString('en-US',{
+        weekday:'long',
+        month:'long',
+        day:'numeric'
+    });
+
+}
+
+updateClock();
+setInterval(updateClock,1000);
+
+</script>
+
+</body>
+</html>
