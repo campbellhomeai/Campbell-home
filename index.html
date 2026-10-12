@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0,
+    maximum-scale=1.0, user-scalable=no"
+  >
+
+  <meta name="theme-color" content="#070b12">
+
+  <title>Campbell Home Concierge</title>
+
+  <style>
+    :root {
+      --gold: #e8c07a;
+      --gold-light: #ffe7b0;
+      --gold-dark: #b97945;
+      --cream: #fff4df;
+      --white: #ffffff;
+      --muted: #d1c5b1;
+      --dark: #070b12;
+      --glass: rgba(7, 11, 18, 0.88);
+      --border: rgba(232, 192, 122, 0.72);
+      --danger: #c95f4b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      background: #000;
+      color: var(--white);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .kiosk {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(2, 5, 10, 0.87) 0%,
+          rgba(3, 7, 13, 0.55) 45%,
+          rgba(3, 6, 11, 0.90) 100%
+        ),
+        url("./nyc-sunset.jpg.PNG") center center / cover no-repeat;
+    }
+
+    .kiosk::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      box-shadow: inset 0 0 130px rgba(0, 0, 0, 0.65);
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      width: min(1100px, 100%);
+      min-height: 100vh;
+      margin: auto;
+      padding: 22px 30px 30px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ===========================
+       CAMPBELL LOGO
+    =========================== */
+
+    .brand-section {
+      text-align: center;
+    }
+
+    .logo {
+      position: relative;
+      width: 92px;
+      height: 92px;
+      margin: 0 auto 4px;
+      filter:
+        drop-shadow(0 0 10px rgba(232, 192, 122, 0.40))
+        drop-shadow(0 0 24px rgba(185, 121, 69, 0.24));
+    }
+
+    .logo-c {
+      position: absolute;
+      inset: 3px;
+      border: 6px solid var(--gold);
+      border-right-color: transparent;
+      border-radius: 50%;
+      transform: rotate(-5deg);
+    }
+
+    .logo-home {
+      position: absolute;
+      left: 25px;
+      top: 26px;
+      width: 43px;
+      height: 42px;
+      color: var(--gold-light);
+      z-index: 2;
+    }
+
+    .brand-name {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(42px, 5.5vw, 72px);
+      font-weight: 400;
+      letter-spacing: 0.13em;
+      line-height: 1;
+
+      background: linear-gradient(
+        180deg,
+        var(--gold-light),
+        var(--gold),
+        var(--gold-dark)
+      );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+
+      filter: drop-shadow(0 3px 9px rgba(0, 0, 0, 0.65));
+    }
+
+    .brand-subtitle {
+      margin-top: 8px;
+      color: var(--gold-light);
+      font-size: clamp(13px, 1.55vw, 19px);
+      letter-spacing: 0.31em;
+      text-transform: uppercase;
+    }
+
+    .brand-slogan {
+      margin-top: 12px;
+      color: var(--white);
+      font-size: clamp(14px, 1.55vw, 19px);
+      font-weight: 600;
+      letter-spacing: 0.11em;
+    }
+
+    /* ===========================
+       TIME AND WEATHER
+    =========================== */
+
+    .information-row {
+      width: min(720px, 100%);
+      margin: 27px auto 19px;
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .time-panel {
+      text-align: right;
+    }
+
+    .time {
+      font-size: clamp(49px, 7vw, 76px);
+      font-weight: 300;
+      line-height: 1;
+      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.65);
+    }
+
+    .date {
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: clamp(16px, 1.75vw, 21px);
+    }
+
+    .information-divider {
+      width: 1px;
+      height: 75px;
+      background: linear-gradient(
+        transparent,
+        rgba(232, 192, 122, 0.65),
+        transparent
+      );
+    }
+
+    .weather {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      text-align: left;
+    }
+
+    .weather-icon {
+      width: 64px;
+      height: 64px;
+      color: var(--gold-light);
+    }
+
+    .temperature {
+      font-size: clamp(43px, 6vw, 66px);
+      font-weight: 300;
+      line-height: 1;
+    }
+
+    .weather-description {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    /* ===========================
+       WELCOME AND QR
+    =========================== */
+
+    .welcome-message {
+      margin-top: 5px;
+      color: var(--white);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(33px, 4.25vw, 49px);
+      font-weight: 600;
+      text-shadow: 0 4px 14px rgba(0, 0, 0, 0.66);
+    }
+
+    .qr-section {
+      margin-top: 16px;
+    }
+
+    .qr-box {
+      width: clamp(205px, 24vw, 270px);
+      aspect-ratio: 1;
+      margin: auto;
+      padding: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border: 3px solid var(--gold);
+      border-radius: 24px;
+      background: #ffffff;
+
+      box-shadow:
+        0 0 13px rgba(255, 231, 176, 0.82),
+        0 0 34px rgba(232, 192, 122, 0.42),
+        0 18px 40px rgba(0, 0, 0, 0.52);
+    }
+
+    .qr-box img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+    }
+
+    .qr-error {
+      display: none;
+      padding: 18px;
+      color: #111;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .qr-title {
+      margin-top: 13px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(26px, 3vw, 38px);
+    }
+
+    .qr-subtitle {
+      margin-top: 4px;
+      color: var(--gold-light);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+    }
+
+    /* ===========================
+       VOICE CONCIERGE
+    =========================== */
+
+    .voice-section {
+      width: min(720px, 100%);
+      margin: 26px auto 28px;
+      padding: 25px;
+
+      border: 2px solid var(--border);
+      border-radius: 27px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(19, 25, 34, 0.91),
+          rgba(5, 8, 13, 0.94)
+        );
+
+      box-shadow:
+        0 15px 38px rgba(0, 0, 0, 0.45),
+        0 0 22px rgba(232, 192, 122, 0.12);
+
+      backdrop-filter: blur(12px);
+    }
+
+    .voice-heading {
+      color: var(--gold-light);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(29px, 3.4vw, 41px);
+      font-weight: 400;
+    }
+
+    .voice-instructions {
+      min-height: 24px;
+      margin: 9px 0 20px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.4;
+    }
+
+    .voice-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .talk-button {
+      width: 135px;
+      height: 135px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      color: var(--gold);
+      border: 4px solid var(--gold);
+      border-radius: 50%;
+      background: rgba(232, 192, 122, 0.08);
+
+      cursor: pointer;
+      touch-action: manipulation;
+
+      box-shadow:
+        0 0 16px rgba(232, 192, 122, 0.20),
+        inset 0 0 22px rgba(232, 192, 122, 0.06);
+
+      transition:
+        transform 160ms ease,
+        background 160ms ease,
+        box-shadow 160ms ease,
+        color 160ms ease;
+    }
+
+    .talk-button:hover,
+    .talk-button:focus-visible {
+      background: rgba(232, 192, 122, 0.16);
+      transform: scale(1.04);
+      outline: none;
+    }
+
+    .talk-button.listening {
+      color: #fff6df;
+      border-color: #ffb47c;
+      background: rgba(190, 65, 49, 0.77);
+
+      box-shadow:
+        0 0 24px rgba(255, 180, 124, 0.82),
+        0 0 58px rgba(190, 65, 49, 0.58);
+
+      animation: listeningPulse 1.05s infinite;
+    }
+
+    .talk-button.processing {
+      color: var(--gold-light);
+      background: rgba(232, 192, 122, 0.18);
+      animation: processingPulse 1.15s infinite;
+    }
+
+    .microphone-icon {
+      width: 55px;
+      height: 55px;
+    }
+
+    .talk-button-label {
+      margin-top: 4px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .repeat-button {
+      min-width: 132px;
+      padding: 14px 20px;
+      color: var(--gold-light);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      cursor: pointer;
+    }
+
+    .repeat-button:hover,
+    .repeat-button:focus-visible {
+      background: rgba(232, 192, 122, 0.12);
+      outline: none;
+    }
+
+    .repeat-button:disabled {
+      opacity: 0.42;
+      cursor: not-allowed;
+    }
+
+    .conversation-panel {
+      margin-top: 22px;
+      padding: 18px 20px;
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 13px 15px;
+      text-align: left;
+
+      border: 1px solid rgba(232, 192, 122, 0.26);
+      border-radius: 17px;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .conversation-label {
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .conversation-text {
+      min-height: 20px;
+      color: var(--white);
+      font-size: 17px;
+      line-height: 1.45;
+    }
+
+    .voice-warning {
+      display: none;
+      margin-top: 16px;
+      padding: 13px;
+      color: #fff0d2;
+      border: 1px solid rgba(255, 180, 124, 0.47);
+      border-radius: 12px;
+      background: rgba(160, 67, 44, 0.25);
+      line-height: 1.45;
+    }
+
+    @keyframes listeningPulse {
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.08);
+      }
+    }
+
+    @keyframes processingPulse {
+      0%,
+      100% {
+        box-shadow:
+          0 0 14px rgba(232, 192, 122, 0.18);
+      }
+
+      50% {
+        box-shadow:
+          0 0 28px rgba(232, 192, 122, 0.55);
+      }
+    }
+
+    /* ===========================
+       SERVICE ICONS
+    =========================== */
+
+    .service-navigation {
+      width: 100%;
+      margin-top: auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 17px;
+    }
+
+    .service-card {
+      min-height: 175px;
+      padding: 20px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      color: var(--cream);
+      border: 2px solid var(--border);
+      border-radius: 23px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(18, 24, 33, 0.90),
+          rgba(5, 8, 13, 0.94)
+        );
+
+      cursor: pointer;
+
+      box-shadow:
+        0 12px 28px rgba(0, 0, 0, 0.34);
+
+      transition:
+        transform 160ms ease,
+        border-color 160ms ease,
+        background 160ms ease;
+    }
+
+    .service-card:hover,
+    .service-card:focus-visible {
+      transform: translateY(-5px);
+      border-color: var(--gold-light);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(53, 41, 28, 0.91),
+          rgba(7, 10, 16, 0.96)
+        );
+      outline: none;
+    }
+
+    .service-icon {
+      width: 83px;
+      height: 83px;
+      margin-bottom: 12px;
+      color: var(--gold);
+      filter:
+        drop-shadow(0 0 7px rgba(232, 192, 122, 0.24));
+    }
+
+    .service-title {
+      color: var(--gold-light);
+      font-size: clamp(20px, 2.1vw, 28px);
+      font-weight: 600;
+    }
+
+    .footer-message {
+      margin-top: 25px;
+      color: var(--gold-light);
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    /* ===========================
+       RESPONSIVE LAYOUT
+    =========================== */
+
+    @media (max-width: 800px) {
+      .container {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .service-navigation {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .information-row {
+        gap: 20px;
+      }
+
+      .conversation-panel {
+        grid-template-columns: 1fr;
+        gap: 5px;
+      }
+
+      .conversation-label:nth-of-type(2) {
+        margin-top: 12px;
+      }
+    }
+
+    @media (max-width: 570px) {
+      .information-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .information-divider {
+        width: 70%;
+        height: 1px;
+        margin: auto;
+      }
+
+      .time-panel {
+        text-align: center;
+      }
+
+      .weather {
+        justify-content: center;
+        text-align: left;
+      }
+
+      .voice-section {
+        padding: 22px 15px;
+      }
+
+      .service-card {
+        min-height: 155px;
+      }
+
+      .service-icon {
+        width: 67px;
+        height: 67px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="kiosk">
+    <div class="container">
+
+      <!-- CAMPBELL BRAND -->
+
+      <header class="brand-section">
+        <div class="logo" aria-label="Campbell Home Concierge logo">
+          <div class="logo-c"></div>
+
+          <svg
+            class="logo-home"
+            viewBox="0 0 64 64"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M8 30L32 9L56 30"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+
+            <path
+              d="M16 27V54H48V27"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+
+            <path
+              d="M27 54V37H37V54"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+
+        <h1 class="brand-name">CAMPBELL</h1>
+
+        <div class="brand-subtitle">
+          Home Concierge
+        </div>
+
+        <div class="brand-slogan">
+          I'm Here to Help
+        </div>
+      </header>
+
+      <!-- CLOCK AND WEATHER -->
+
+      <section
+        class="information-row"
+        aria-label="Current time and weather"
+      >
+        <div class="time-panel">
+          <div class="time" id="currentTime">
+            9:41 PM
+          </div>
+
+          <div class="date" id="currentDate">
+            Monday, October 5
+          </div>
+        </div>
+
+        <div class="information-divider"></div>
+
+        <div class="weather">
+          <svg
+            class="weather-icon"
+            viewBox="0 0 100 100"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M50 9V20"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linecap="round"
+            />
+
+            <path
+              d="M22 20L30 28"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linecap="round"
+            />
+
+            <path
+              d="M78 20L70 28"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linecap="round"
+            />
+
+            <path
+              d="M31 50C32 36 42 28 54 28C67 28 76 37 77 50C87 52 93 59 93 69C93 80 85 87 73 87H31C17 87 8 79 8 67C8 57 16 50 26 49C28 49 29 49 31 50Z"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linejoin="round"
+            />
+          </svg>
+
+          <div>
+            <div class="temperature">
+              72°F
+            </div>
+
+            <div class="weather-description">
+              Mostly Clear
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- WELCOME -->
+
+      <div class="welcome-message">
+        Welcome Home, Guest
+      </div>
+
+      <!-- QR CODE -->
+
+      <section class="qr-section" aria-label="Wi-Fi connection">
+        <div class="qr-box">
+          ./wifi-qr.png.jpg"
+          >
+
+          <div class="qr-error" id="qrError">
+            Wi-Fi QR code will be available soon.
+          </div>
+        </div>
+
+        <div class="qr-title">
+          Scan for Wi-Fi
+        </div>
+
+        <div class="qr-subtitle">
+          Stay Connected. Stay at Home.
+        </div>
+      </section>
+
+      <!-- CAMPBELL VOICE CONCIERGE -->
+
+      <section
+        class="voice-section"
+        aria-labelledby="voiceHeading"
+      >
+        <h2 class="voice-heading" id="voiceHeading">
+          Talk to Campbell
+        </h2>
+
+        <p
+          class="voice-instructions"
+          id="voiceStatus"
+          aria-live="polite"
+        >
+          Tap the microphone and ask a property question
+        </p>
+
+        <div class="voice-controls">
+          <button
+            id="talkButton"
+            class="talk-button"
+            type="button"
+            aria-label="Tap to talk to Campbell"
+          >
+            <svg
+              class="microphone-icon"
+              viewBox="0 0 64 64"
+              fill="none"
+              aria-hidden="true"
+            >
+              <rect
+                x="22"
+                y="6"
+                width="20"
+                height="35"
+                rx="10"
+                stroke="currentColor"
+                stroke-width="5"
+              />
+
+              <path
+                d="M14 30C14 42 21 49 32 49C43 49 50 42 50 30"
+                stroke="currentColor"
+                stroke-width="5"
+                stroke-linecap="round"
+              />
+
+              <path
+                d="M32 49V58"
+                stroke="currentColor"
+                stroke-width="5"
+                stroke-linecap="round"
+              />
+
+              <path
+                d="M23 58H41"
+                stroke="currentColor"
+                stroke-width="5"
+                stroke-linecap="round"
+              />
+            </svg>
+
+            <span class="talk-button-label">
+              Tap to Talk
+            </span>
+          </button>
+
+          <button
+            id="repeatButton"
+            class="repeat-button"
+            type="button"
+            disabled
+          >
+            Replay Answer
+          </button>
+        </div>
+
+        <div class="conversation-panel">
+          <div class="conversation-label">
+            Guest
+          </div>
+
+          <div
+            class="conversation-text"
+            id="guestTranscript"
+            aria-live="polite"
+          >
+            Your question will appear here.
+          </div>
+
+          <div class="conversation-label">
+            Campbell
+          </div>
+
+          <div
+            class="conversation-text"
+            id="campbellResponse"
+            aria-live="polite"
+          >
+            Campbell's answer will appear here.
+          </div>
+        </div>
+
+        <div
+          class="voice-warning"
+          id="voiceWarning"
+          role="alert"
+        ></div>
+      </section>
+
+      <!-- SERVICE NAVIGATION -->
+
+      <nav
+        class="service-navigation"
+        aria-label="Campbell guest services"
+      >
+
+        <!-- HOME -->
+
+        <button class="service-card" type="button">
+          <svg
+            class="service-icon"
+            viewBox="0 0 100 100"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M13 48L50 17L87 48"
+              stroke="currentColor"
+              stroke-width="8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+
+            <path
+              d="M23 44V85H77V44"
+              stroke="currentColor"
+              stroke-width="8"
+              stroke-linejoin="round"
+            />
+
+            <path
+              d="M43 85V61H59V85"
+              stroke="currentColor"
+              stroke-width="8"
+              stroke-linejoin="round"
+            />
+          </svg>
+
+          <div class="service-title">
+            Home
+          </div>
+        </button>
+
+        <!-- HOUSEKEEPING -->
+
+        <button class="service-card" type="button">
+          <svg
+            class="service-icon"
+            viewBox="0 0 100 100"
+            fill="none"
+            aria-hidden="true"
+          >
+            <rect
+              x="20"
+              y="20"
+              width="63"
+              height="20"
+              rx="7"
+              stroke="currentColor"
+              stroke-width="7"
+            />
+
+            <rect
+              x="14"
+              y="43"
+              width="69"
+              height="21"
+              rx="7"
+              stroke="currentColor"
+              stroke-width="7"
+            />
+
+            <rect
+              x="21"
+              y="67"
+              width="62"
+              height="19"
+              rx="7"
+              stroke="currentColor"
+              stroke-width="7"
+            />
+
+            <path
+              d="M66 27H74"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linecap="round"
+            />
+
+            <path
+              d="M66 51H74"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linecap="round"
+            />
+          </svg>
+
+          <div class="service-title">
+            Housekeeping
+          </div>
+        </button>
+
+        <!-- MAINTENANCE -->
+
+        <button class="service-card" type="button">
+          <svg
+            class="service-icon"
+            viewBox="0 0 100 100"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M22 17C31 15 39 19 43 25C47 31 47 38 44 44L80 77C84 81 84 87 80 91C76 95 69 95 65 91L32 55C26 57 20 56 15 53C8 48 5 39 8 31L21 43L31 33L22 17Z"
+              stroke="currentColor"
+              stroke-width="7"
+              stroke-linejoin="round"
+            />
+          </svg>
+
+          <div class="service-title">
+            Maintenance
+          </div>
+        </button>
+
+        <!-- CHECK OUT -->
+
+        <button class="service-card" type="button">
+          <svg
+            class="service-icon"
+            viewBox="0 0 100 100"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M21 14H76V86H21V14Z"
+              stroke="currentColor"
+              stroke-width="7"
+            />
+
+            <path
+              d="M34 23L71 29V79L34 87V23Z"
+              stroke="currentColor"
+              stroke-width="7"
+              stroke-linejoin="round"
+            />
+
+            <circle
+              cx="61"
+              cy="55"
+              r="3.5"
+              fill="currentColor"
+            />
+          </svg>
+
+          <div class="service-title">
+            Check Out
+          </div>
+        </button>
+      </nav>
+
+      <footer class="footer-message">
+        Exceptional Stays Create Brighter Tomorrows
+      </footer>
+
+    </div>
+  </main>
+
+  <!--
+    Load property.js before the voice-concierge JavaScript.
+    property.js must be in the same GitHub folder as index.html.
+  -->
+
+  ./property.jsscript>
+
+  <script>
+    /* ===========================
+       CLOCK
+    =========================== */
+
+    function updateClock() {
+      const now = new Date();
+
+      document.getElementById("currentTime").textContent =
+        now.toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true
+        });
+
+      document.getElementById("currentDate").textContent =
+        now.toLocaleDateString("en-US", {
+          weekday: "long",
+          month: "long",
+          day: "numeric"
+        });
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    /* ===========================
+       QR FALLBACK
+    =========================== */
+
+    function showQrError() {
+      const image = document.getElementById("wifiQrImage");
+      const errorMessage = document.getElementById("qrError");
+
+      image.style.display = "none";
+      errorMessage.style.display = "block";
+    }
+
+    /* ===========================
+       CAMPBELL VOICE V1
+    =========================== */
+
+    const talkButton =
+      document.getElementById("talkButton");
+
+    const repeatButton =
+      document.getElementById("repeatButton");
+
+    const voiceStatus =
+      document.getElementById("voiceStatus");
+
+    const guestTranscript =
+      document.getElementById("guestTranscript");
+
+    const campbellResponse =
+      document.getElementById("campbellResponse");
+
+    const voiceWarning =
+      document.getElementById("voiceWarning");
+
+    const SpeechRecognition =
+      window.SpeechRecognition ||
+      window.webkitSpeechRecognition;
+
+    let recognition = null;
+    let isListening = false;
+    let hasIntroducedCampbell = false;
+    let lastResponse = "";
+
+    /*
+      Provide fallback information if property.js
+      was not loaded correctly.
+    */
+
+    const campbellProperty =
+      typeof propertyInfo !== "undefined"
+        ? propertyInfo
+        : {
+            wifi:
+              "Scan the QR code on the kiosk to connect to Wi-Fi.",
+
+            checkout:
+              "Checkout is at 11 AM.",
+
+            parking:
+              "I don't have the approved parking information yet.",
+
+            laundry:
+              "I don't have the approved laundry information yet.",
+
+            housekeeping:
+              "Select the Housekeeping button to request assistance.",
+
+            maintenance:
+              "Select the Maintenance button to report an issue.",
+
+            thermostat:
+              "I don't have the thermostat instructions yet.",
+
+            trash:
+              "I don't have the trash instructions yet.",
+
+            emergency:
+              "For an immediate emergency, call 911.",
+
+            contact:
+              "Please use one of the service buttons to contact the property team."
+          };
+
+    /*
+      Campbell speaks the supplied text aloud.
+    */
+
+    function speak(text, onComplete) {
+      if (!("speechSynthesis" in window)) {
+        voiceWarning.style.display = "block";
+
+        voiceWarning.textContent =
+          "Spoken responses are not supported by this browser.";
+
+        if (onComplete) {
+          onComplete();
+        }
+
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+
+      const speech =
+        new SpeechSynthesisUtterance(text);
+
+      speech.lang = "en-US";
+      speech.rate = 0.92;
+      speech.pitch = 1;
+      speech.volume = 1;
+
+      /*
+        Try to select a natural English voice
+        already installed on the tablet.
+      */
+
+      const voices =
+        window.speechSynthesis.getVoices();
+
+      const preferredVoice =
+        voices.find((voice) =>
+          voice.lang === "en-US" &&
+          (
+            voice.name.includes("Natural") ||
+            voice.name.includes("Google") ||
+            voice.name.includes("Microsoft")
+          )
+        ) ||
+        voices.find((voice) =>
+          voice.lang.startsWith("en")
+        );
+
+      if (preferredVoice) {
+        speech.voice = preferredVoice;
+      }
+
+      speech.onend = function() {
+        if (onComplete) {
+          onComplete();
+        }
+      };
+
+      speech.onerror = function() {
+        if (onComplete) {
+          onComplete();
+        }
+      };
+
+      window.speechSynthesis.speak(speech);
+    }
+
+    /*
+      Campbell's introduction plays after the first
+      guest interaction. Browsers frequently block
+      unsolicited audio, so this is more reliable
+      than attempting to speak during page loading.
+    */
+
+    function introduceCampbell(callback) {
+      if (hasIntroducedCampbell) {
+        callback();
+        return;
+      }
+
+      hasIntroducedCampbell = true;
+
+      const introduction =
+        "Hello, I'm Campbell. I'm here to help you throughout your stay. What can I help you with?";
+
+      campbellResponse.textContent = introduction;
+
+      speak(introduction, callback);
+    }
+
+    /*
+      Clean text before matching the guest's request.
+    */
+
+    function normalizeQuestion(question) {
+      return question
+        .toLowerCase()
+        .replace(/[.,?!]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    /*
+      Property-specific answer matching.
+      Add additional questions and keywords here later.
+    */
+
+    function answerQuestion(spokenQuestion) {
+      const question =
+        normalizeQuestion(spokenQuestion);
+
+      let response = "";
+
+      if (
+        question.includes("wifi") ||
+        question.includes("wi-fi") ||
+        question.includes("internet") ||
+        question.includes("connect")
+      ) {
+        response = campbellProperty.wifi;
+      }
+
+      else if (
+        question.includes("checkout") ||
+        question.includes("check out") ||
+        question.includes("leave") ||
+        question.includes("departure")
+      ) {
+        response = campbellProperty.checkout;
+      }
+
+      else if (
+        question.includes("parking") ||
+        question.includes("park my car") ||
+        question.includes("park the car") ||
+        question.includes("car")
+      ) {
+        response = campbellProperty.parking;
+      }
+
+      else if (
+        question.includes("laundry") ||
+        question.includes("washer") ||
+        question.includes("dryer") ||
+        question.includes("wash clothes")
+      ) {
+        response = campbellProperty.laundry;
+      }
+
+      else if (
+        question.includes("housekeeping") ||
+        question.includes("towels") ||
+        question.includes("linen") ||
+        question.includes("cleaning") ||
+        question.includes("supplies")
+      ) {
+        response = campbellProperty.housekeeping;
+      }
+
+      else if (
+        question.includes("maintenance") ||
+        question.includes("broken") ||
+        question.includes("not working") ||
+        question.includes("repair") ||
+        question.includes("leak")
+      ) {
+        response = campbellProperty.maintenance;
+      }
+
+      else if (
+        question.includes("thermostat") ||
+        question.includes("temperature") ||
+        question.includes("heat") ||
+        question.includes("air conditioning") ||
+        question.includes("air conditioner") ||
+        question.includes("cold")
+      ) {
+        response = campbellProperty.thermostat;
+      }
+
+      else if (
+        question.includes("trash") ||
+        question.includes("garbage") ||
+        question.includes("recycling")
+      ) {
+        response = campbellProperty.trash;
+      }
+
+      else if (
+        question.includes("emergency") ||
+        question.includes("fire") ||
+        question.includes("smoke") ||
+        question.includes("danger")
+      ) {
+        response = campbellProperty.emergency;
+      }
+
+      else if (
+        question.includes("contact") ||
+        question.includes("call someone") ||
+        question.includes("property team") ||
+        question.includes("manager") ||
+        question.includes("help me")
+      ) {
+        response = campbellProperty.contact;
+      }
+
+      else if (
+        question.includes("hello") ||
+        question.includes("hi campbell") ||
+        question === "hi"
+      ) {
+        response =
+          "Hello. I'm Campbell. How can I help you during your stay?";
+      }
+
+      else if (
+        question.includes("thank you") ||
+        question.includes("thanks")
+      ) {
+        response =
+          "You're welcome. I'm here if you need anything else.";
+      }
+
+      else {
+        response =
+          "I don't have that information yet. Please select Housekeeping or Maintenance if you need help from the property team.";
+      }
+
+      lastResponse = response;
+
+      campbellResponse.textContent = response;
+
+      repeatButton.disabled = false;
+
+      voiceStatus.textContent =
+        "Campbell is responding";
+
+      talkButton.classList.remove("listening");
+      talkButton.classList.add("processing");
+
+      speak(response, function() {
+        talkButton.classList.remove("processing");
+
+        voiceStatus.textContent =
+          "Tap the microphone to ask another question";
+      });
+    }
+
+    /*
+      Start browser speech recognition.
+    */
+
+    function beginListening() {
+      voiceWarning.style.display = "none";
+
+      if (!SpeechRecognition) {
+        voiceWarning.style.display = "block";
+
+        voiceWarning.textContent =
+          "Voice recognition is not available in this browser. Try opening the kiosk in the latest version of Chrome or Edge.";
+
+        voiceStatus.textContent =
+          "Voice recognition is unavailable";
+
+        return;
+      }
+
+      if (isListening) {
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+
+      recognition =
+        new SpeechRecognition();
+
+      recognition.lang = "en-US";
+      recognition.continuous = false;
+      recognition.interimResults = true;
+      recognition.maxAlternatives = 1;
+
+      recognition.onstart = function() {
+        isListening = true;
+
+        talkButton.classList.add("listening");
+
+        voiceStatus.textContent =
+          "Listening... ask your question";
+
+        guestTranscript.textContent =
+          "Listening...";
+      };
+
+      recognition.onresult = function(event) {
+        let transcript = "";
+        let finalTranscript = "";
+
+        for (
+          let index = event.resultIndex;
+          index < event.results.length;
+          index++
+        ) {
+          transcript +=
+            event.results[index][0].transcript;
+
+          if (event.results[index].isFinal) {
+            finalTranscript +=
+              event.results[index][0].transcript;
+          }
+        }
+
+        guestTranscript.textContent =
+          transcript || "Listening...";
+
+        if (finalTranscript.trim()) {
+          voiceStatus.textContent =
+            "I heard your question";
+
+          answerQuestion(finalTranscript);
+        }
+      };
+
+      recognition.onerror = function(event) {
+        isListening = false;
+
+        talkButton.classList.remove("listening");
+        talkButton.classList.remove("processing");
+
+        if (event.error === "not-allowed") {
+          voiceWarning.style.display = "block";
+
+          voiceWarning.textContent =
+            "Microphone permission is turned off. Allow microphone access in the browser settings, then tap the microphone again.";
+
+          voiceStatus.textContent =
+            "Microphone permission is required";
+        }
+
+        else if (event.error === "no-speech") {
+          voiceStatus.textContent =
+            "I didn't hear a question. Tap the microphone and try again.";
+
+          guestTranscript.textContent =
+            "No speech detected.";
+        }
+
+        else if (event.error === "network") {
+          voiceWarning.style.display = "block";
+
+          voiceWarning.textContent =
+            "Speech recognition could not connect. Check the tablet's internet connection.";
+
+          voiceStatus.textContent =
+            "Voice service is temporarily unavailable";
+        }
+
+        else {
+          voiceStatus.textContent =
+            "I couldn't hear that clearly. Please try again.";
+        }
+      };
+
+      recognition.onend = function() {
+        isListening = false;
+        talkButton.classList.remove("listening");
+
+        if (
+          guestTranscript.textContent === "Listening..."
+        ) {
+          voiceStatus.textContent =
+            "Tap the microphone and try again";
+        }
+      };
+
+      recognition.start();
+    }
+
+    /*
+      The first tap introduces Campbell.
+      After the greeting finishes, listening begins.
+    */
+
+    talkButton.addEventListener("click", function() {
+      if (isListening && recognition) {
+        recognition.stop();
+        return;
+      }
+
+      introduceCampbell(function() {
+        beginListening();
+      });
+    });
+
+    /*
+      Replay Campbell's previous answer.
+    */
+
+    repeatButton.addEventListener("click", function() {
+      if (!lastResponse) {
+        return;
+      }
+
+      voiceStatus.textContent =
+        "Replaying Campbell's answer";
+
+      speak(lastResponse, function() {
+        voiceStatus.textContent =
+          "Tap the microphone to ask another question";
+      });
+    });
+
+    /*
+      Load available voices.
+    */
+
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.getVoices();
+
+      window.speechSynthesis.addEventListener(
+        "voiceschanged",
+        function() {
+          window.speechSynthesis.getVoices();
+        }
+      );
+    }
+  </script>
+
+</body>
+</html>
