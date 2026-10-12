@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover"
+    >
+
+    <meta name="theme-color" content="#080b15">
+
+    <title>Campbell Home Concierge</title>
+
+    <style>
+        :root {
+            --gold: #e5c16d;
+            --dark: rgba(7, 10, 21, 0.94);
+            --white: #ffffff;
+            --safe-bottom: max(24px, env(safe-area-inset-bottom));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
+            color: var(--white);
+            font-family: Georgia, "Times New Roman", serif;
+
+            background:
+                linear-gradient(
+                    rgba(0, 0, 0, 0.12),
+                    rgba(0, 0, 0, 0.4)
+                ),
+                url("nyc-sunset.jpg.PNG") center center / cover no-repeat fixed;
+        }
+
+        button,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible {
+            outline: 4px solid #ffffff;
+            outline-offset: 4px;
+        }
+
+        .app {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            padding:
+                16px
+                20px
+                calc(190px + var(--safe-bottom));
+        }
+
+        /* CAMPBELL LOGO */
+
+        .brand {
+            text-align: center;
+            line-height: 1;
+        }
+
+        .brand-logo {
+            display: block;
+            width: 155px;
+            height: 130px;
+            margin: 0 auto -10px;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+        }
+
+        .strong-c {
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 24;
+            stroke-linecap: square;
+            stroke-linejoin: miter;
+        }
+
+        .geometric-house {
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 4.5;
+            stroke-linecap: square;
+            stroke-linejoin: miter;
+        }
+
+        .geometric-door {
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 3.8;
+            stroke-linecap: square;
+            stroke-linejoin: miter;
+        }
+
+        .brand-name {
+            color: var(--gold);
+            font-size: clamp(44px, 5.3vw, 66px);
+            font-weight: 700;
+            letter-spacing: 0.075em;
+            text-shadow: 0 4px 9px rgba(0, 0, 0, 0.65);
+        }
+
+        .brand-subtitle {
+            margin-top: 7px;
+            font-size: clamp(13px, 1.45vw, 18px);
+            font-weight: 700;
+            letter-spacing: 0.32em;
+            text-shadow: 0 3px 7px rgba(0, 0, 0, 0.8);
+        }
+
+        .brand-helper {
+            margin-top: 8px;
+            font-size: clamp(16px, 1.8vw, 22px);
+            font-weight: 700;
+            text-shadow: 0 3px 7px rgba(0, 0, 0, 0.8);
+        }
+
+        /* TIME AND WEATHER */
+
+        .status-row {
+            width: min(1160px, 94%);
+            margin-top: 15px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 30px;
+        }
+
+        .clock-area {
+            text-align: left;
+        }
+
+        .weather-area {
+            text-align: right;
+        }
+
+        .status-primary {
+            font-size: clamp(47px, 7vw, 80px);
+            line-height: 1;
+            font-weight: 400;
+            text-shadow: 0 4px 9px rgba(0, 0, 0, 0.9);
+        }
+
+        .status-secondary {
+            margin-top: 8px;
+            font-size: clamp(17px, 2.2vw, 28px);
+            font-weight: 700;
+            text-shadow: 0 4px 9px rgba(0, 0, 0, 0.9);
+        }
+
+        /* WELCOME */
+
+        .welcome {
+            margin-top: 20px;
+            font-size: clamp(43px, 6vw, 72px);
+            line-height: 1.05;
+            font-weight: 700;
+            text-align: center;
+            text-shadow: 0 4px 11px rgba(0, 0, 0, 0.92);
+        }
+
+        /* WI-FI QR */
+
+        .wifi-section {
+            margin-top: 22px;
+            text-align: center;
+        }
+
+        .qr-shell {
+            width: 262px;
+            height: 262px;
+            margin: 0 auto;
+            padding: 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #ffffff;
+            border: 4px solid var(--gold);
+            border-radius: 25px;
+            overflow: hidden;
+
+            box-shadow:
+                0 0 0 2px rgba(255, 255, 255, 0.28),
+                0 12px 34px rgba(0, 0, 0, 0.45);
+        }
+
+        .wifi-qr-image {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #ffffff;
+        }
+
+        .wifi-label {
+            margin-top: 13px;
+            font-size: clamp(31px, 4vw, 47px);
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.88);
+        }
+
+        /* MICROPHONE */
+
+        .voice-section {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .microphone-button {
+            width: 120px;
+            height: 120px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            color: var(--gold);
+            background: rgba(5, 8, 17, 0.82);
+            border: 4px solid var(--gold);
+            border-radius: 50%;
+            cursor: pointer;
+
+            box-shadow:
+                0 9px 22px rgba(0, 0, 0, 0.45),
+                inset 0 0 18px rgba(229, 193, 109, 0.08);
+
+            transition:
+                transform 160ms ease,
+                background 160ms ease,
+                box-shadow 160ms ease;
+        }
+
+        .microphone-button:hover {
+            transform: scale(1.045);
+            background: rgba(12, 17, 32, 0.97);
+            box-shadow:
+                0 0 25px rgba(229, 193, 109, 0.5),
+                0 9px 22px rgba(0, 0, 0, 0.48);
+        }
+
+        .microphone-button.speaking {
+            animation: microphone-pulse 1.15s infinite;
+        }
+
+        .microphone-icon {
+            width: 50px;
+            height: 50px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        @keyframes microphone-pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(229, 193, 109, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 22px rgba(229, 193, 109, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(229, 193, 109, 0);
+            }
+        }
+
+        .speak-label {
+            margin-top: 11px;
+            font-size: clamp(29px, 3.8vw, 44px);
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+        }
+
+        .assistant-message {
+            width: min(1000px, 92vw);
+            margin-top: 13px;
+            padding: 14px 19px;
+
+            color: white;
+            background: rgba(4, 7, 15, 0.76);
+            border: 1px solid rgba(229, 193, 109, 0.5);
+            border-radius: 13px;
+
+            font-family: Arial, sans-serif;
+            font-size: clamp(14px, 1.7vw, 19px);
+            font-weight: 700;
+            line-height: 1.45;
+            text-align: left;
+
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.36);
+            backdrop-filter: blur(6px);
+        }
+
+        /* BOTTOM NAVIGATION */
+
+        .bottom-navigation {
+            position: absolute;
+            left: 50%;
+            bottom: calc(25px + var(--safe-bottom));
+            transform: translateX(-50%);
+
+            width: min(1240px, 95%);
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 13px;
+        }
+
+        .navigation-card {
+            min-width: 0;
+            min-height: 145px;
+            padding: 23px 9px 18px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+
+            color: white;
+            background: var(--dark);
+            border: 3px solid var(--gold);
+            border-radius: 22px;
+
+            box-shadow: 0 9px 24px rgba(0, 0, 0, 0.44);
+            cursor: pointer;
+
+            transition:
+                transform 150ms ease,
+                background 150ms ease,
+                box-shadow 150ms ease;
+        }
+
+        .navigation-card:hover,
+        .navigation-card:focus-visible {
+            transform: translateY(-5px);
+            background: rgba(18, 24, 45, 0.98);
+
+            box-shadow:
+                0 0 20px rgba(229, 193, 109, 0.36),
+                0 11px 26px rgba(0, 0, 0, 0.48);
+        }
+
+        .navigation-icon {
+            width: 48px;
+            height: 48px;
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 2.6;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .navigation-label {
+            font-size: clamp(14px, 1.7vw, 20px);
+            line-height: 1.12;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        /* INFORMATION SCREENS */
+
+        .information-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+
+            display: none;
+            overflow-y: auto;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    rgba(4, 7, 16, 0.93),
+                    rgba(4, 7, 16, 0.97)
+                ),
+                url("nyc-sunset.jpg.PNG") center center / cover no-repeat;
+        }
+
+        .information-screen.open {
+            display: block;
+        }
+
+        .information-content {
+            width: min(1100px, 92%);
+            min-height: 100%;
+            margin: 0 auto;
+
+            padding:
+                35px
+                0
+                calc(55px + var(--safe-bottom));
+        }
+
+        .information-header {
+            display: flex;
+            align-items: center;
+            gap: 23px;
+            margin-bottom: 30px;
+        }
+
+        .back-button,
+        .primary-button,
+        .secondary-button {
+            border: 0;
+            border-radius: 12px;
+            font-family: Arial, sans-serif;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .back-button {
+            flex: 0 0 auto;
+            padding: 14px 20px;
+            color: #111111;
+            background: var(--gold);
+            font-size: 17px;
+        }
+
+        .primary-button {
+            padding: 17px 28px;
+            color: #111111;
+            background: var(--gold);
+            font-size: 19px;
+        }
+
+        .secondary-button {
+            padding: 17px 28px;
+            color: white;
+            background: #414652;
+            font-size: 19px;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 24px;
+        }
+
+        .information-title {
+            color: var(--gold);
+            font-size: clamp(35px, 5vw, 58px);
+            line-height: 1;
+        }
+
+        .information-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 19px;
+        }
+
+        .information-grid.single-column {
+            grid-template-columns: 1fr;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .information-card {
+            min-height: 165px;
+            padding: 23px;
+
+            background: rgba(11, 16, 32, 0.92);
+            border: 2px solid rgba(229, 193, 109, 0.8);
+            border-radius: 18px;
+
+            box-shadow: 0 9px 24px rgba(0, 0, 0, 0.38);
+        }
+
+        .information-card h3 {
+            margin-bottom: 12px;
+            color: var(--gold);
+            font-size: 25px;
+        }
+
+        .information-card p,
+        .information-card li {
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .information-card ul {
+            padding-left: 22px;
+        }
+
+        .information-note {
+            margin-top: 24px;
+            padding: 18px;
+
+            background: rgba(229, 193, 109, 0.12);
+            border-left: 5px solid var(--gold);
+            border-radius: 8px;
+
+            font-family: Arial, sans-serif;
+            font-size: 17px;
+            line-height: 1.55;
+        }
+
+        .information-note:empty {
+            display: none;
+        }
+
+        .workflow {
+            min-height: 330px;
+            padding: 35px 25px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            text-align: center;
+        }
+
+        .workflow h2 {
+            color: var(--gold);
+            font-size: clamp(29px, 4vw, 46px);
+            line-height: 1.25;
+        }
+
+        .workflow h3 {
+            margin-top: 15px;
+            color: white;
+            font-size: clamp(22px, 3vw, 34px);
+        }
+
+        .survey-label {
+            display: block;
+            margin: 22px 0 9px;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .survey-select,
+        .survey-textarea {
+            width: min(580px, 100%);
+            padding: 14px;
+
+            color: white;
+            background: rgba(3, 6, 14, 0.85);
+
+            border: 2px solid var(--gold);
+            border-radius: 10px;
+
+            font-family: Arial, sans-serif;
+            font-size: 17px;
+        }
+
+        .survey-textarea {
+            min-height: 135px;
+            resize: vertical;
+        }
+
+        .confirmation-symbol {
+            display: block;
+            margin-bottom: 18px;
+            color: var(--gold);
+            font-family: Arial, sans-serif;
+            font-size: 52px;
+            font-weight: 900;
+        }
+
+        /* TABLET ADJUSTMENTS */
+
+        @media (max-width: 900px) {
+            .app {
+                padding-left: 14px;
+                padding-right: 14px;
+                padding-bottom: calc(176px + var(--safe-bottom));
+            }
+
+            .brand-logo {
+                width: 128px;
+                height: 108px;
+            }
+
+            .status-row {
+                width: 95%;
+            }
+
+            .qr-shell {
+                width: 235px;
+                height: 235px;
+            }
+
+            .bottom-navigation {
+                gap: 8px;
+            }
+
+            .navigation-card {
+                min-height: 128px;
+                padding: 18px 5px 14px;
+                border-radius: 18px;
+            }
+
+            .navigation-icon {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .status-primary {
+                font-size: 39px;
+            }
+
+            .status-secondary {
+                font-size: 15px;
+            }
+
+            .welcome {
+                font-size: 36px;
+            }
+
+            .bottom-navigation {
+                gap: 5px;
+            }
+
+            .navigation-card {
+                min-height: 113px;
+                border-width: 2px;
+            }
+
+            .navigation-icon {
+                width: 32px;
+                height: 32px;
+            }
+
+            .navigation-label {
+                font-size: 12px;
+            }
+
+            .information-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .information-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            .primary-button,
+            .secondary-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="app">
+
+        <header class="brand">
+
+            <svg
+                class="brand-logo"
+                viewBox="0 0 165 140"
+                role="img"
+                aria-label="Campbell Home logo"
+            >
+                <path
+                    class="strong-c"
+                    d="
+                        M135 25
+                        C111 8 74 7 47 22
+                        C20 37 11 65 17 93
+                        C23 121 47 134 76 134
+                        C102 134 122 121 136 102
+                    "
+                ></path>
+
+                <path
+                    class="geometric-house"
+                    d="M48 70 L78 41 L108 70"
+                ></path>
+
+                <path
+                    class="geometric-house"
+                    d="M54 67 L54 104 L102 104 L102 67"
+                ></path>
+
+                <path
+                    class="geometric-door"
+                    d="M70 104 L70 77 L84 77 L84 104"
+                ></path>
+            </svg>
+
+            <div class="brand-name">CAMPBELL</div>
+            <div class="brand-subtitle">HOME CONCIERGE</div>
+            <div class="brand-helper">I'M HERE TO HELP.</div>
+
+        </header>
+
+        <section class="status-row" aria-label="Time and weather">
+
+            <div class="clock-area">
+                <div class="status-primary" id="clock">12:00 AM</div>
+                <div class="status-secondary" id="date">
+                    Monday, October 12
+                </div>
+            </div>
+
+            <div class="weather-area">
+                <div class="status-primary">72°F</div>
+                <div class="status-secondary">Mostly Clear</div>
+            </div>
+
+        </section>
+
+        <h1 class="welcome">Welcome Home, Guest</h1>
+
+        <section class="wifi-section" aria-label="Wi-Fi connection">
+
+            <div class="qr-shell">
+                <img
+                    class="wifi-qr-image"
+                    src="wifi-qr.png.jpg"
+                    alt="Scan this QR code to connect to the property Wi-Fi"
+                >
+            </div>
+
+            <div class="wifi-label">Connect to Wi-Fi</div>
+
+        </section>
+
+        <section class="voice-section" aria-label="Speak with Campbell">
+
+            <button
+                type="button"
+                class="microphone-button"
+                id="microphoneButton"
+                aria-label="Speak with Campbell"
+            >
+                <svg
+                    class="microphone-icon"
+                    viewBox="0 0 48 48"
+                    aria-hidden="true"
+                >
+                    <rect
+                        x="17"
+                        y="5"
+                        width="14"
+                        height="25"
+                        rx="7"
+                    ></rect>
+
+                    <path
+                        d="M11 23 C11 32 16 37 24 37 C32 37 37 32 37 23"
+                    ></path>
+
+                    <path d="M24 37 V44"></path>
+                    <path d="M17 44 H31"></path>
+                </svg>
+            </button>
+
+            <div class="speak-label">Speak with Campbell</div>
+
+            <div class="assistant-message" id="assistantMessage">
+                What can Campbell help you with today?
+            </div>
+
+        </section>
+
+        <nav class="bottom-navigation" aria-label="Guest services">
+
+            <button
+                type="button"
+                class="navigation-card"
+                data-section="home"
+            >
+                <svg class="navigation-icon" viewBox="0 0 48 48">
+                    <path d="M6 23 L24 7 L42 23"></path>
+                    <path d="M10 21 V42 H38 V21"></path>
+                    <path d="M20 42 V29 H28 V42"></path>
+                </svg>
+
+                <span class="navigation-label">Home</span>
+            </button>
+
+            <button
+                type="button"
+                class="navigation-card"
+                data-section="checkin"
+            >
+                <svg class="navigation-icon" viewBox="0 0 48 48">
+                    <rect
+                        x="7"
+                        y="6"
+                        width="34"
+                        height="36"
+                        rx="4"
+                    ></rect>
+
+                    <path d="M14 25 L21 32 L35 16"></path>
+                </svg>
+
+                <span class="navigation-label">Check In</span>
+            </button>
+
+            <button
+                type="button"
+                class="navigation-card"
+                data-section="housekeeping"
+            >
+                <svg class="navigation-icon" viewBox="0 0 48 48">
+                    <path d="M9 20 C12 37 16 41 24 41 C32 41 36 37 39 20"></path>
+                    <path d="M7 20 H41"></path>
+                    <path d="M13 20 L18 8"></path>
+                    <path d="M23 20 V7"></path>
+                    <path d="M35 20 L30 8"></path>
+                    <path d="M13 28 H35"></path>
+                </svg>
+
+                <span class="navigation-label">Housekeeping</span>
+            </button>
+
+            <button
+                type="button"
+                class="navigation-card"
+                data-section="maintenance"
+            >
+                <svg class="navigation-icon" viewBox="0 0 48 48">
+                    <path
+                        d="
+                            M29 7
+                            C25 11 25 17 29 21
+                            L14 36
+                            C11 39 11 42 14 45
+                            C17 47 20 46 22 44
+                            L37 29
+                            C41 32 45 31 48 28
+                        "
+                    ></path>
+
+                    <circle cx="18" cy="40" r="2"></circle>
+                </svg>
+
+                <span class="navigation-label">Maintenance</span>
+            </button>
+
+            <button
+                type="button"
+                class="navigation-card"
+                data-section="checkout"
+            >
+                <svg class="navigation-icon" viewBox="0 0 48 48">
+                    <path d="M11 43 V6 H34 V43"></path>
+                    <path d="M15 10 L31 13 V43 H15 Z"></path>
+                    <circle cx="27" cy="28" r="1.7"></circle>
+                    <path d="M34 24 H44"></path>
+                    <path d="M40 20 L44 24 L40 28"></path>
+                </svg>
+
+                <span class="navigation-label">Check Out</span>
+            </button>
+
+        </nav>
+
+    </main>
+
+    <section
+        class="information-screen"
+        id="informationScreen"
+        aria-hidden="true"
+    >
+        <div class="information-content">
+
+            <header class="information-header">
+
+                <button
+                    type="button"
+                    class="back-button"
+                    id="backButton"
+                >
+                    ← Back to Concierge
+                </button>
+
+                <h2
+                    class="information-title"
+                    id="informationTitle"
+                >
+                    Home
+                </h2>
+
+            </header>
+
+            <div
+                class="information-grid"
+                id="informationGrid"
+            ></div>
+
+            <div
+                class="information-note"
+                id="informationNote"
+            ></div>
+
+        </div>
+    </section>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+
+            document.getElementById("clock").textContent =
+                now.toLocaleTimeString([], {
+                    hour: "numeric",
+                    minute: "2-digit"
+                });
+
+            document.getElementById("date").textContent =
+                now.toLocaleDateString("en-US", {
+                    weekday: "long",
+                    month: "long",
+                    day: "numeric"
+                });
+        }
+
+        function speakCampbell(text) {
+            if (!("speechSynthesis" in window)) {
+                return;
+            }
+
+            window.speechSynthesis.cancel();
+
+            const message =
+                new SpeechSynthesisUtterance(text);
+
+            message.rate = 0.94;
+            message.pitch = 0.92;
+            message.volume = 1;
+
+            window.speechSynthesis.speak(message);
+        }
+
+        const microphoneButton =
+            document.getElementById("microphoneButton");
+
+        const assistantMessage =
+            document.getElementById("assistantMessage");
+
+        microphoneButton.addEventListener("click", function () {
+            const greeting =
+                "Hello, I'm Campbell and I'm here to help you " +
+                "throughout your stay. You may ask questions by " +
+                "tapping the microphone, or get additional information " +
+                "by tapping each icon below.";
+
+            assistantMessage.textContent = greeting;
+            microphoneButton.classList.add("speaking");
+
+            speakCampbell(greeting);
+
+            window.setTimeout(function () {
+                microphoneButton.classList.remove("speaking");
+            }, 3400);
+        });
+
+        const sectionContent = {
+            home: {
+                title: "Home Information",
+
+                spoken:
+                    "Welcome to Home Information. Here you can review " +
+                    "house rules, Wi-Fi access, local attractions, dining, " +
+                    "transportation, and emergency contacts.",
+
+                cards: [
+                    {
+                        title: "House Rules",
+                        body:
+                            "<ul>" +
+                            "<li>No smoking inside the property.</li>" +
+                            "<li>Observe posted quiet hours.</li>" +
+                            "<li>Only registered guests may stay overnight.</li>" +
+                            "<li>Report damage or safety concerns promptly.</li>" +
+                            "</ul>"
+                    },
+                    {
+                        title: "Wi-Fi",
+                        body:
+                            "<p>Return to the concierge screen and scan " +
+                            "the Connect to Wi-Fi QR code.</p>"
+                    },
+                    {
+                        title: "Local Attractions",
+                        body:
+                            "<ul>" +
+                            "<li>Central Park</li>" +
+                            "<li>Times Square</li>" +
+                            "<li>Empire State Building</li>" +
+                            "<li>Nearby museums and neighborhood attractions</li>" +
+                            "</ul>"
+                    },
+                    {
+                        title: "Dining",
+                        body:
+                            "<p>Add verified nearby restaurants, cafes, " +
+                            "grocery stores, and delivery recommendations here.</p>"
+                    },
+                    {
+                        title: "Transportation",
+                        body:
+                            "<p>Add nearby subway stations, rideshare pickup, " +
+                            "parking, and airport transportation information here.</p>"
+                    },
+                    {
+                        title: "Emergency Contacts",
+                        body:
+                            "<p><strong>Emergency services:</strong> 911</p>" +
+                            "<p>Add property management and building " +
+                            "contact information here.</p>"
+                    }
+                ],
+
+                note:
+                    "Confirm all property rules, recommendations, and " +
+                    "contact information before guest use."
+            },
+
+            checkin: {
+                title: "Check In",
+
+                spoken:
+                    "Welcome to Check In.",
+
+                singleColumn: true,
+
+                cards: [
+                    {
+                        title: "Guest Check In",
+                        body:
+                            '<div class="workflow" id="checkInContainer">' +
+                            '<button type="button" class="primary-button" ' +
+                            'onclick="checkInGuest()">' +
+                            "CHECK IN NOW" +
+                            "</button>" +
+                            "</div>"
+                    }
+                ],
+
+                note: ""
+            },
+
+            housekeeping: {
+                title: "Housekeeping",
+
+                spoken:
+                    "Welcome to Housekeeping. Here you can review cleaning " +
+                    "services and request guest supplies.",
+
+                cards: [
+                    {
+                        title: "Fresh Towels",
+                        body:
+                            "<p>Add instructions for requesting fresh towels.</p>"
+                    },
+                    {
+                        title: "Extra Linens",
+                        body:
+                            "<p>Add instructions for requesting blankets, " +
+                            "sheets, pillows, and additional linens.</p>"
+                    },
+                    {
+                        title: "Cleaning Service",
+                        body:
+                            "<p>Add service times, notice requirements, " +
+                            "and any applicable charges.</p>"
+                    },
+                    {
+                        title: "Laundry",
+                        body:
+                            "<p>Add the laundry location and operating " +
+                            "instructions here.</p>"
+                    }
+                ],
+
+                note:
+                    "These options can later connect to the property's " +
+                    "housekeeping request system."
+            },
+
+            maintenance: {
+                title: "Maintenance",
+
+                spoken:
+                    "Welcome to Maintenance. Here you can report property " +
+                    "issues and request assistance.",
+
+                cards: [
+                    {
+                        title: "Wi-Fi Support",
+                        body:
+                            "<p>Restart the affected device first. If the problem " +
+                            "continues, contact the property host.</p>"
+                    },
+                    {
+                        title: "Heating and Cooling",
+                        body:
+                            "<p>Add thermostat instructions and approved " +
+                            "temperature settings here.</p>"
+                    },
+                    {
+                        title: "Plumbing",
+                        body:
+                            "<p>Report leaks, clogs, low water pressure, " +
+                            "or lack of hot water promptly.</p>"
+                    },
+                    {
+                        title: "Electrical",
+                        body:
+                            "<p>Report power loss, damaged outlets, lighting " +
+                            "problems, or unusual electrical activity.</p>"
+                    },
+                    {
+                        title: "Appliances",
+                        body:
+                            "<p>Add operating guidance for property appliances.</p>"
+                    },
+                    {
+                        title: "Urgent Safety Issue",
+                        body:
+                            "<p>For immediate danger, leave the affected area " +
+                            "and contact emergency services.</p>"
+                    }
+                ],
+
+                note:
+                    "A future update can add maintenance requests, photo " +
+                    "uploads, and repair-status tracking."
+            },
+
+            checkout: {
+                title: "Check Out",
+
+                spoken:
+                    "Welcome to Check Out.",
+
+                singleColumn: true,
+
+                cards: [
+                    {
+                        title: "Guest Check Out",
+                        body:
+                            '<div class="workflow" id="checkoutContainer">' +
+                            '<button type="button" class="primary-button" ' +
+                            'onclick="showCheckoutOptions()">' +
+                            "CHECK OUT NOW" +
+                            "</button>" +
+                            "</div>"
+                    }
+                ],
+
+                note: ""
+            }
+        };
+
+        const informationScreen =
+            document.getElementById("informationScreen");
+
+        const informationTitle =
+            document.getElementById("informationTitle");
+
+        const informationGrid =
+            document.getElementById("informationGrid");
+
+        const informationNote =
+            document.getElementById("informationNote");
+
+        function openInformationScreen(sectionName) {
+            const section = sectionContent[sectionName];
+
+            if (!section) {
+                return;
+            }
+
+            informationTitle.textContent = section.title;
+
+            informationGrid.classList.toggle(
+                "single-column",
+                section.singleColumn === true
+            );
+
+            informationGrid.innerHTML = section.cards
+                .map(function (card) {
+                    return (
+                        '<article class="information-card">' +
+                        "<h3>" + card.title + "</h3>" +
+                        card.body +
+                        "</article>"
+                    );
+                })
+                .join("");
+
+            informationNote.textContent = section.note || "";
+
+            informationScreen.classList.add("open");
+            informationScreen.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+
+            speakCampbell(section.spoken);
+        }
+
+        function closeInformationScreen() {
+            informationScreen.classList.remove("open");
+            informationScreen.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+
+            if ("speechSynthesis" in window) {
+                window.speechSynthesis.cancel();
+            }
+        }
+
+        function checkInGuest() {
+            const checkInRecord = {
+                status: "checked-in",
+                timestamp: new Date().toISOString()
+            };
+
+            localStorage.setItem(
+                "campbellCheckIn",
+                JSON.stringify(checkInRecord)
+            );
+
+            const checkInContainer =
+                document.getElementById("checkInContainer");
+
+            if (!checkInContainer) {
+                return;
+            }
+
+            checkInContainer.innerHTML =
+                '<span class="confirmation-symbol">✓</span>' +
+                "<h2>THANK YOU FOR CHECKING IN</h2>" +
+                "<h3>Please Enjoy Your Stay</h3>";
+
+            speakCampbell(
+                "Thank you for checking in. Please enjoy your stay."
+            );
+        }
+
+        function showCheckoutOptions() {
+            const checkoutContainer =
+                document.getElementById("checkoutContainer");
+
+            if (!checkoutContainer) {
+                return;
+            }
+
+            checkoutContainer.innerHTML =
+                "<h2>Would You Like To Leave Feedback?</h2>" +
+                '<div class="button-row">' +
+                '<button type="button" class="primary-button" ' +
+                'onclick="showFeedbackForm()">' +
+                "LEAVE FEEDBACK" +
+                "</button>" +
+                '<button type="button" class="secondary-button" ' +
+                'onclick="completeCheckout(false)">' +
+                "SKIP" +
+                "</button>" +
+                "</div>";
+        }
+
+        function showFeedbackForm() {
+            const checkoutContainer =
+                document.getElementById("checkoutContainer");
+
+            if (!checkoutContainer) {
+                return;
+            }
+
+            checkoutContainer.innerHTML =
+                "<h2>How Was Your Stay?</h2>" +
+
+                '<label class="survey-label" for="guestRating">' +
+                "Rate Your Stay" +
+                "</label>" +
+
+                '<select class="survey-select" id="guestRating">' +
+                '<option value="5">★★★★★ Excellent</option>' +
+                '<option value="4">★★★★ Good</option>' +
+                '<option value="3">★★★ Fair</option>' +
+                '<option value="2">★★ Poor</option>' +
+                '<option value="1">★ Very Poor</option>' +
+                "</select>" +
+
+                '<label class="survey-label" for="guestComment">' +
+                "Comments Optional" +
+                "</label>" +
+
+                '<textarea class="survey-textarea" id="guestComment" ' +
+                'placeholder="Share any feedback you would like us to know.">' +
+                "</textarea>" +
+
+                '<div class="button-row">' +
+                '<button type="button" class="primary-button" ' +
+                'onclick="submitFeedback()">' +
+                "SUBMIT AND CHECK OUT" +
+                "</button>" +
+
+                '<button type="button" class="secondary-button" ' +
+                'onclick="completeCheckout(false)">' +
+                "SKIP FEEDBACK" +
+                "</button>" +
+                "</div>";
+        }
+
+        function submitFeedback() {
+            const ratingElement =
+                document.getElementById("guestRating");
+
+            const commentElement =
+                document.getElementById("guestComment");
+
+            const surveyResponse = {
+                rating: ratingElement ? ratingElement.value : "",
+                comment: commentElement
+                    ? commentElement.value.trim()
+                    : "",
+                submittedAt: new Date().toISOString()
+            };
+
+            localStorage.setItem(
+                "campbellGuestSurvey",
+                JSON.stringify(surveyResponse)
+            );
+
+            completeCheckout(true);
+        }
+
+        function completeCheckout(feedbackSubmitted) {
+            const checkoutRecord = {
+                status: "checked-out",
+                timestamp: new Date().toISOString(),
+                feedbackSubmitted: Boolean(feedbackSubmitted),
+                ownerAction: "disable-guest-lock"
+            };
+
+            localStorage.setItem(
+                "campbellCheckOut",
+                JSON.stringify(checkoutRecord)
+            );
+
+            localStorage.setItem(
+                "checkoutRequested",
+                "true"
+            );
+
+            localStorage.setItem(
+                "lockDisableRequested",
+                "true"
+            );
+
+            const checkoutContainer =
+                document.getElementById("checkoutContainer");
+
+            if (!checkoutContainer) {
+                return;
+            }
+
+            checkoutContainer.innerHTML =
+                '<span class="confirmation-symbol">✓</span>' +
+                "<h2>YOU ARE CHECKED OUT</h2>" +
+                "<h3>Thanks For Staying With Us!</h3>";
+
+            speakCampbell(
+                "You are checked out. Thanks for staying with us."
+            );
+        }
+
+        document
+            .querySelectorAll(".navigation-card")
+            .forEach(function (button) {
+                button.addEventListener("click", function () {
+                    openInformationScreen(
+                        button.dataset.section
+                    );
+                });
+            });
+
+        document
+            .getElementById("backButton")
+            .addEventListener(
+                "click",
+                closeInformationScreen
+            );
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+                if (
+                    event.key === "Escape" &&
+                    informationScreen.classList.contains("open")
+                ) {
+                    closeInformationScreen();
+                }
+            }
+        );
+
+        updateClock();
+        window.setInterval(updateClock, 1000);
+    </script>
+
+</body>
+</html>
