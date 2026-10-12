@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campbell Home Concierge</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html,body{
+width:100%;
+height:100%;
+overflow:hidden;
+font-family:Georgia, serif;
+}
+
+body{
+background:
+linear-gradient(
+rgba(0,0,0,.15),
+rgba(0,0,0,.35)
+),
+url("nyc-sunset.jpg.PNG");
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+color:white;
+}
+
+.container{
+height:100vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+padding:10px;
+position:relative;
+}
+
+/* LOGO */
+
+.logo-area{
+text-align:center;
+}
+
+.logo-svg{
+width:130px;
+height:130px;
+}
+
+.logo-text{
+font-size:54px;
+letter-spacing:4px;
+color:#E5C16D;
+margin-top:-15px;
+}
+
+.subtitle{
+font-size:14px;
+letter-spacing:4px;
+}
+
+.help{
+font-size:18px;
+margin-top:3px;
+}
+
+/* TOP INFO */
+
+.top-row{
+width:92%;
+display:flex;
+justify-content:space-between;
+margin-top:10px;
+}
+
+.time{
+font-size:56px;
+}
+
+.date{
+font-size:20px;
+}
+
+.temp{
+font-size:56px;
+text-align:right;
+}
+
+.weather{
+font-size:20px;
+text-align:right;
+}
+
+/* CENTER */
+
+.welcome{
+font-size:56px;
+font-weight:bold;
+margin-top:10px;
+text-align:center;
+}
+
+.qr-box{
+width:220px;
+height:220px;
+background:white;
+border-radius:20px;
+overflow:hidden;
+border:3px solid #E5C16D;
+margin-top:15px;
+box-shadow:0 0 25px rgba(229,193,109,.6);
+}
+
+.qr-box img{
+width:100%;
+height:100%;
+object-fit:contain;
+display:block;
+}
+
+.scan{
+font-size:36px;
+margin-top:10px;
+}
+
+.mic-btn{
+width:95px;
+height:95px;
+border-radius:50%;
+border:4px solid #E5C16D;
+background:rgba(0,0,0,.65);
+color:#E5C16D;
+font-size:42px;
+cursor:pointer;
+margin-top:15px;
+}
+
+.speak{
+font-size:30px;
+margin-top:8px;
+}
+
+.response{
+margin-top:10px;
+background:rgba(0,0,0,.55);
+padding:12px;
+border-radius:12px;
+width:90%;
+max-width:900px;
+}
+
+/* ICONS */
+
+.bottom-nav{
+position:absolute;
+bottom:110px;
+width:95%;
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:10px;
+}
+
+.card{
+background:rgba(10,15,30,.92);
+border:2px solid #E5C16D;
+border-radius:18px;
+padding:14px;
+text-align:center;
+cursor:pointer;
+}
+
+.icon{
+font-size:30px;
+margin-bottom:5px;
+}
+
+.label{
+font-size:16px;
+font-weight:bold;
+}
+
+/* MODAL */
+
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.96);
+z-index:1000;
+}
+
+.modal-content{
+height:100vh;
+overflow-y:auto;
+padding:40px;
+max-width:1000px;
+margin:auto;
+}
+
+.back-btn{
+background:#E5C16D;
+color:black;
+border:none;
+padding:12px 20px;
+border-radius:10px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+margin-bottom:25px;
+}
+
+.modal h2{
+margin-bottom:20px;
+color:#E5C16D;
+}
+
+.modal h3{
+margin-top:20px;
+margin-bottom:10px;
+color:#E5C16D;
+}
+
+.modal p{
+line-height:1.8;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo-area">
+
+<svg class="logo-svg" viewBox="0 0 120 120">
+
+<path
+d="M95 20
+C70 8 35 18 22 48
+C10 78 25 106 58 109
+C78 111 93 103 103 90"
+fill="none"
+stroke="#E5C16D"
+stroke-width="8"
+stroke-linecap="round"/>
+
+<path
+d="M42 56 L60 40 L78 56"
+fill="none"
+stroke="#E5C16D"
+stroke-width="4"/>
+
+<path
+d="M46 56 L46 80 L74 80 L74 56"
+fill="none"
+stroke="#E5C16D"
+stroke-width="4"/>
+
+<path
+d="M57 80 L57 64 L64 64 L64 80"
+fill="none"
+stroke="#E5C16D"
+stroke-width="3"/>
+
+</svg>
+
+<div class="logo-text">CAMPBELL</div>
+<div class="subtitle">HOME CONCIERGE</div>
+<div class="help">I'M HERE TO HELP.</div>
+
+</div>
+
+<div class="top-row">
+
+<div>
+<div id="clock" class="time"></div>
+<div id="date" class="date"></div>
+</div>
+
+<div>
+<div class="temp">72°F</div>
+<div class="weather">Mostly Clear</div>
+</div>
+
+</div>
+
+<div class="welcome">
+Welcome Home, Guest
+</div>
+
+<div class="qr-box">
+wifi-qr.png.jpg
+</div>
+
+<div class="scan">
+Scan for Wi‑Fi
+</div>
+
+<button class="mic-btn" onclick="campbellGreeting()">
+🎤
+</button>
+
+<div class="speak">
+Speak with Campbell
+</div>
+
+<div id="response" class="response">
+What can Campbell help you with today?
+</div>
+
+<div class="bottom-nav">
+
+<div class="card" onclick="openSection('home')">
+<div class="icon">🏠</div>
+<div class="label">Home</div>
+</div>
+
+<div class="card" onclick="openSection('checkin')">
+<div class="icon">✅</div>
+<div class="label">Check In</div>
+</div>
+
+<div class="card" onclick="openSection('housekeeping')">
+<div class="icon">🧺</div>
+<div class="label">Housekeeping</div>
+</div>
+
+<div class="card" onclick="openSection('maintenance')">
+<div class="icon">🔧</div>
+<div class="label">Maintenance</div>
+</div>
+
+<div class="card" onclick="openSection('checkout')">
+<div class="icon">🚪</div>
+<div class="label">Check Out</div>
+</div>
+
+</div>
+
+</div>
+
+<div id="modal" class="modal">
+<div class="modal-content">
+
+<button class="back-btn" onclick="closeSection()">
+← Back to Home
+</button>
+
+<h2 id="modalTitle"></h2>
+
+<div id="modalBody"></div>
+
+</div>
+</div>
+
+<script>
+
+function speak(text){
+speechSynthesis.cancel();
+const msg = new SpeechSynthesisUtterance(text);
+msg.rate = .95;
+speechSynthesis.speak(msg);
+}
+
+function campbellGreeting(){
+
+const text =
+"Hello, I'm Campbell and I'm here to help you throughout your stay. You may ask questions by tapping the microphone, or get additional information by tapping each icon below.";
+
+document.getElementById("response").innerText = text;
+
+speak(text);
+}
+
+function openSection(section){
+
+const modal = document.getElementById("modal");
+const title = document.getElementById("modalTitle");
+const body = document.getElementById("modalBody");
+
+let voice = "";
+let html = "";
+
+switch(section){
+
+case "home":
+
+title.innerHTML="Home Information";
+
+voice="Welcome to the Home Information Center.";
+
+html=`
+<h3>House Rules</h3>
+<p>• No Smoking</p>
+<p>• Quiet Hours 10 PM - 8 AM</p>
+<p>• Registered Guests Only</p>
+
+<h3>Wi‑Fi</h3>
+<p>Scan the QR Code on the home screen.</p>
+
+<h3>Local Attractions</h3>
+<p>• Times Square</p>
+<p>• Central Park</p>
+<p>• Empire State Building</p>
+
+<h3>Restaurants</h3>
+<p>• Joe's Pizza</p>
+<p>• Carmine's</p>
+<p>• Serafina</p>
+
+<h3>Transportation</h3>
+<p>• Subway</p>
+<p>• Uber</p>
+<p>• Taxi Service</p>
+
+<h3>Emergency Contacts</h3>
+<p>• 911 Emergency Services</p>
+<p>• Property Manager</p>
+`;
+
+break;
+
+case "checkin":
+
+title.innerHTML="Check In";
+
+voice="Welcome to Check In.";
+
+html=`
+<h3>Arrival</h3>
+<p>Check‑In Time: 4:00 PM</p>
+<p>Review access instructions provided before arrival.</p>
+
+<h3>Property Access</h3>
+<p>Building and unit entry instructions are provided separately.</p>
+
+<h3>Parking</h3>
+<p>Contact host for parking details.</p>
+`;
+
+break;
+
+case "housekeeping":
+
+title.innerHTML="Housekeeping";
+
+voice="Welcome to Housekeeping.";
+
+html=`
+<h3>Services</h3>
+<p>• Fresh Towels</p>
+<p>• Extra Linens</p>
+<p>• Additional Cleaning</p>
+<p>• Laundry Information</p>
+`;
+
+break;
+
+case "maintenance":
+
+title.innerHTML="Maintenance";
+
+voice="Welcome to Maintenance.";
+
+html=`
+<h3>Property Support</h3>
+<p>• Wi‑Fi Issues</p>
+<p>• HVAC Problems</p>
+<p>• Plumbing</p>
+<p>• Electrical</p>
+<p>• Appliances</p>
+`;
+
+break;
+
+case "checkout":
+
+title.innerHTML="Check Out";
+
+voice="Welcome to Check Out.";
+
+html=`
+<h3>Departure</h3>
+<p>Check‑Out Time: 11:00 AM</p>
+
+<h3>Checklist</h3>
+<p>☐ Remove belongings</p>
+<p>☐ Lock doors</p>
+<p>☐ Dispose of trash</p>
+<p>☐ Return keys if applicable</p>
+
+<p>Thank you for staying with us.</p>
+`;
+
+break;
+
+}
+
+body.innerHTML = html;
+modal.style.display = "block";
+speak(voice);
+
+}
+
+function closeSection(){
+document.getElementById("modal").style.display="none";
+speechSynthesis.cancel();
+}
+
+function updateClock(){
+
+const now = new Date();
+
+document.getElementById("clock").textContent =
+now.toLocaleTimeString([],{
+hour:'numeric',
+minute:'2-digit'
+});
+
+document.getElementById("date").textContent =
+now.toLocaleDateString('en-US',{
+weekday:'long',
+month:'long',
+day:'numeric'
+});
+
+}
+
+updateClock();
+setInterval(updateClock,1000);
+
+</script>
+
+</body>
+</html>
